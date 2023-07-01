@@ -6,19 +6,23 @@
 #include <map>
 #include <experimental/random>
 
-struct Genome {
+struct Genome
+{
     std::vector<int> path;
     float fitness;
 };
 
-void P(std::vector<int> offspring) {
-    for (int i = 0; i < offspring.size(); i++) {
+void P(std::vector<int> offspring)
+{
+    for (int i = 0; i < offspring.size(); i++)
+    {
         std::cout << offspring[i] << " ";
     }
     std::cout << std::endl;
 }
 
-Genome ordered_crossover(const Genome &parent_1, const Genome &parent_2, int crossover_start, int crossover_end) {
+Genome ordered_crossover(const Genome &parent_1, const Genome &parent_2, int crossover_start, int crossover_end)
+{
     std::vector<int> p1_path = parent_1.path;    // extract path in parents
     std::vector<int> p2_path = parent_2.path;  // delete sentinal value /0
 
@@ -30,27 +34,34 @@ Genome ordered_crossover(const Genome &parent_1, const Genome &parent_2, int cro
 
     std::map<int, std::vector<int>> map;
 
-    for (int i = 0; i < offspring.size(); i++) {
+    for (int i = 0; i < offspring.size(); i++)
+    {
         map[i] = std::vector<int>();
     }
 
-    for (int i = 0; i < offspring.size(); i++) {
+    for (int i = 0; i < offspring.size(); i++)
+    {
         map[offspring[i]].push_back(i);
     }
 
     std::vector<int> zero_instances;
     std::vector<int> mult_instances;
 
-    for (auto &item: map) {
-        if (item.second.size() == 0) {
+    for (auto &item: map)
+    {
+        if (item.second.size() == 0)
+        {
             zero_instances.push_back(item.first);
-        } else if (item.second.size() > 1) {
+        } else if (item.second.size() > 1)
+        {
             mult_instances.push_back(item.first);
         }
     }
 
-    for (int i = 0; i < mult_instances.size(); i++) {
-        while (map[mult_instances[i]].size() > 1) {
+    for (int i = 0; i < mult_instances.size(); i++)
+    {
+        while (map[mult_instances[i]].size() > 1)
+        {
 
             int rand_index = std::experimental::fundamentals_v2::randint(0, (int) map[mult_instances[i]].size() - 1);
 
@@ -67,14 +78,17 @@ Genome ordered_crossover(const Genome &parent_1, const Genome &parent_2, int cro
     return new_genome;
 }
 
-Genome mutation(const Genome &chromosome, int mutation_rate) {
+Genome mutation(const Genome &chromosome, int mutation_rate)
+{
     std::vector<int> offspring;         // for storing mutated path
     std::vector<int> possible_positions; // for possible index
-    for (int i = 0; i < chromosome.path.size(); i++) {
+    for (int i = 0; i < chromosome.path.size(); i++)
+    {
         offspring.push_back(chromosome.path[i]);    // copy of path in chromosome
     }
 
-    for (int i = 0; i < offspring.size(); i++) {
+    for (int i = 0; i < offspring.size(); i++)
+    {
         possible_positions.push_back(i);            // create indexes
     }
 
@@ -82,7 +96,8 @@ Genome mutation(const Genome &chromosome, int mutation_rate) {
     std::mt19937 gen(rd());            // might nit be correct
     std::uniform_int_distribution<int> dist(0, possible_positions.size() - 1);
 
-    for (int i = 0; i < mutation_rate; i++) {
+    for (int i = 0; i < mutation_rate; i++)
+    {
         int position_1 = dist(gen);
         int position_2 = dist(gen);        // just swaps two cities
 
@@ -94,7 +109,8 @@ Genome mutation(const Genome &chromosome, int mutation_rate) {
     return new_offspring;
 }
 
-void Test() {
+void Test()
+{
     Genome parent1{{0, 1, 3, 4, 2, 5, 7, 8, 9, 6}, 1};
     Genome parent2{{3, 0, 1, 2, 4, 6, 8, 9, 5, 7}, 1};
 
@@ -118,7 +134,8 @@ void Test() {
     P(mutated_offspring.path);
 }
 
-int main() {
+int main()
+{
     Test();
     return 0;
 }
