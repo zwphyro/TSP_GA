@@ -1,5 +1,9 @@
 #include "Population.h"
 
+/*
+ * Constructor initializing all fields of the class, also calculates the cycle length for each individual
+ * to define the fitness function value
+ */
 Population::Population(const std::vector<chromosome_t> &individuals, const graph_t &graph)
 {
     this->individuals = individuals;
@@ -26,21 +30,33 @@ Population::Population(const std::vector<chromosome_t> &individuals, const graph
     }
 }
 
+/*
+ * Returns fitness function values of all individuals
+ */
 const std::vector<long> &Population::get_fitness_values()
 {
     return fitness_values;
 }
 
+/*
+ * Returns chromosomes of all individuals
+ */
 const std::vector<chromosome_t> &Population::get_individuals()
 {
     return individuals;
 }
 
+/*
+ * Returns chromosome and fitness function value of individual with smallest fitness value in population
+ */
 const std::pair<chromosome_t, int> &Population::get_best_individual()
 {
     return std::make_pair(individuals[best_individual_index], fitness_values[best_individual_index]);
 }
 
+/*
+ * Returns chromosome of individual at defined index
+ */
 const chromosome_t &Population::operator[](unsigned int index)
 {
     return individuals[index];

@@ -3,9 +3,20 @@
 
 #include <vector>
 
-typedef std::vector<int> chromosome_t;
+/*
+ * Graph is defined as adjacency matrix
+ * Each index of matrix corresponds to the graph node
+ */
 typedef std::vector<std::vector<int>> graph_t;
 
+/*
+ * Chromosome is defined as vector of nodes indexes which form a Hamiltonian cycle
+ */
+typedef std::vector<int> chromosome_t;
+
+/*
+ * Population is a group of interacting chromosomes (individuals), that formed at each step of the algorithm
+ */
 class Population
 {
 public:
