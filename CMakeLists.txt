@@ -13,7 +13,7 @@ find_package(Qt5 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(TSP_GA src/main.cpp)
+add_executable(TSP_GA src/main.cpp src/data-structures/Population.h src/data-structures/Population.cpp)
 target_link_libraries(TSP_GA
         Qt5::Core
         Qt5::Gui
