@@ -49,9 +49,9 @@ const std::vector<chromosome_t> &Population::get_individuals()
 /*
  * Returns chromosome and fitness function value of individual with smallest fitness value in population
  */
-const std::pair<chromosome_t, int> &Population::get_best_individual()
+std::pair<const chromosome_t &, int> Population::get_best_individual()
 {
-    return std::make_pair(individuals[best_individual_index], fitness_values[best_individual_index]);
+    return {individuals[best_individual_index], fitness_values[best_individual_index]};
 }
 
 /*
