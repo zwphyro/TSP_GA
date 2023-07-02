@@ -75,13 +75,13 @@
         <mxCell id="zfDIEUEI1KuNPbUGtCDo-3" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="zfDIEUEI1KuNPbUGtCDo-1">
           <mxGeometry y="130" width="300" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="zfDIEUEI1KuNPbUGtCDo-4" value="+ get_fitness_values(): std::vector&amp;lt;int&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="zfDIEUEI1KuNPbUGtCDo-1">
+        <mxCell id="zfDIEUEI1KuNPbUGtCDo-4" value="+ getFitnessValues(): std::vector&amp;lt;int&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="zfDIEUEI1KuNPbUGtCDo-1">
           <mxGeometry y="138" width="300" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="zfDIEUEI1KuNPbUGtCDo-8" value="+ get_individuals(): std::vector&amp;lt;Chromodome&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="zfDIEUEI1KuNPbUGtCDo-1">
+        <mxCell id="zfDIEUEI1KuNPbUGtCDo-8" value="+ getIndividuals(): std::vector&amp;lt;Chromodome&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="zfDIEUEI1KuNPbUGtCDo-1">
           <mxGeometry y="164" width="300" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="zfDIEUEI1KuNPbUGtCDo-9" value="+ get_best_individual(): std::pair&amp;lt;chromosome_t, int&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="zfDIEUEI1KuNPbUGtCDo-1">
+        <mxCell id="zfDIEUEI1KuNPbUGtCDo-9" value="+ getBestIndividual(): std::pair&amp;lt;chromosome_t, int&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="zfDIEUEI1KuNPbUGtCDo-1">
           <mxGeometry y="190" width="300" height="26" as="geometry" />
         </mxCell>
         <mxCell id="DQDOPzfC7P4hQIXZMrXH-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="DQDOPzfC7P4hQIXZMrXH-8" target="DQDOPzfC7P4hQIXZMrXH-1" edge="1">

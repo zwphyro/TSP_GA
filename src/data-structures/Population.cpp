@@ -33,7 +33,7 @@ Population::Population(const std::vector<chromosome_t> &individuals, const graph
 /*
  * Returns fitness function values of all individuals
  */
-const std::vector<long> &Population::get_fitness_values()
+const std::vector<long> &Population::getFitnessValues()
 {
     return fitness_values;
 }
@@ -41,7 +41,7 @@ const std::vector<long> &Population::get_fitness_values()
 /*
  * Returns chromosomes of all individuals
  */
-const std::vector<chromosome_t> &Population::get_individuals()
+const std::vector<chromosome_t> &Population::getIndividuals()
 {
     return individuals;
 }
@@ -49,7 +49,7 @@ const std::vector<chromosome_t> &Population::get_individuals()
 /*
  * Returns chromosome and fitness function value of individual with smallest fitness value in population
  */
-std::pair<const chromosome_t &, int> Population::get_best_individual()
+std::pair<const chromosome_t &, int> Population::getBestIndividual()
 {
     return {individuals[best_individual_index], fitness_values[best_individual_index]};
 }

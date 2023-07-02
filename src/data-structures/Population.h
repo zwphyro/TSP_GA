@@ -2,17 +2,8 @@
 #define TSP_GA_POPULATION_H
 
 #include <vector>
-
-/*
- * Graph is defined as adjacency matrix
- * Each index of matrix corresponds to the graph node
- */
-typedef std::vector<std::vector<int>> graph_t;
-
-/*
- * Chromosome is defined as vector of nodes indexes which form a Hamiltonian cycle
- */
-typedef std::vector<int> chromosome_t;
+#include "Chromosome.h"
+#include "Graph.h"
 
 /*
  * Population is a group of interacting chromosomes (individuals), that formed at each step of the algorithm
@@ -21,9 +12,9 @@ class Population
 {
 public:
     Population(const std::vector<chromosome_t> &individuals, const graph_t &graph);
-    const std::vector<long> &get_fitness_values();
-    const std::vector<chromosome_t> &get_individuals();
-    std::pair<const chromosome_t &, int> get_best_individual();
+    const std::vector<long> &getFitnessValues();
+    const std::vector<chromosome_t> &getIndividuals();
+    std::pair<const chromosome_t &, int> getBestIndividual();
     const chromosome_t &operator[](unsigned int index);
 
 private:
