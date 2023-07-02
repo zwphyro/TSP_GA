@@ -16,6 +16,7 @@ public:
     const std::vector<chromosome_t> &getIndividuals();
     std::pair<const chromosome_t &, int> getBestIndividual();
     const chromosome_t &operator[](unsigned int index);
+    std::size_t size();
 
 private:
     std::vector<chromosome_t> individuals;

@@ -61,3 +61,11 @@ const chromosome_t &Population::operator[](unsigned int index)
 {
     return individuals[index];
 }
+
+/*
+ * Returns amount of individuals in population
+ */
+std::size_t Population::size()
+{
+    return individuals.size();
+}
