@@ -33,7 +33,7 @@ Population::Population(const std::vector<chromosome_t> &individuals, const graph
 /*
  * Returns fitness function values of all individuals
  */
-const std::vector<long> &Population::getFitnessValues()
+const std::vector<long> &Population::getFitnessValues() const
 {
     return fitness_values;
 }
@@ -41,7 +41,7 @@ const std::vector<long> &Population::getFitnessValues()
 /*
  * Returns chromosomes of all individuals
  */
-const std::vector<chromosome_t> &Population::getIndividuals()
+const std::vector<chromosome_t> &Population::getIndividuals() const
 {
     return individuals;
 }
@@ -49,7 +49,7 @@ const std::vector<chromosome_t> &Population::getIndividuals()
 /*
  * Returns chromosome and fitness function value of individual with smallest fitness value in population
  */
-std::pair<const chromosome_t &, int> Population::getBestIndividual()
+std::pair<const chromosome_t &, int> Population::getBestIndividual() const
 {
     return {individuals[best_individual_index], fitness_values[best_individual_index]};
 }
@@ -57,7 +57,7 @@ std::pair<const chromosome_t &, int> Population::getBestIndividual()
 /*
  * Returns chromosome of individual at defined index
  */
-const chromosome_t &Population::operator[](unsigned int index)
+const chromosome_t &Population::operator[](unsigned int index) const
 {
     return individuals[index];
 }
@@ -65,7 +65,7 @@ const chromosome_t &Population::operator[](unsigned int index)
 /*
  * Returns amount of individuals in population
  */
-std::size_t Population::size()
+std::size_t Population::size() const
 {
     return individuals.size();
 }

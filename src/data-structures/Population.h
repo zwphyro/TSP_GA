@@ -12,11 +12,11 @@ class Population
 {
 public:
     Population(const std::vector<chromosome_t> &individuals, const graph_t &graph);
-    const std::vector<long> &getFitnessValues();
-    const std::vector<chromosome_t> &getIndividuals();
-    std::pair<const chromosome_t &, int> getBestIndividual();
-    const chromosome_t &operator[](unsigned int index);
-    std::size_t size();
+    const std::vector<long> &getFitnessValues() const;
+    const std::vector<chromosome_t> &getIndividuals() const;
+    std::pair<const chromosome_t &, int> getBestIndividual() const;
+    const chromosome_t &operator[](unsigned int index) const;
+    std::size_t size() const;
 
 private:
     std::vector<chromosome_t> individuals;
