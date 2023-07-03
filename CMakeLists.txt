@@ -20,7 +20,7 @@ find_package(Qt5 COMPONENTS
         REQUIRED)
 
 
-add_executable(TSP_GA src/main.cpp src/ui/mainwindow.cpp src/data-structures/Population.h src/data-structures/Population.cpp src/data-structures/Graph.h src/data-structures/Chromosome.h src/data-structures/PopulationList.h src/parents_selection/RouletteWheelSelection.h src/parents_selection/RouletteWheelSelection.cpp)
+add_executable(TSP_GA src/main.cpp src/ui/mainwindow.cpp src/data-structures/Population.h src/data-structures/Population.cpp src/data-structures/Graph.h src/data-structures/Chromosome.h src/data-structures/PopulationList.h src/parents-selection/RouletteWheelSelection.h src/parents-selection/RouletteWheelSelection.cpp)
 
 target_link_libraries(TSP_GA
         Qt5::Core
