@@ -1,5 +1,0 @@
-/Users/margarita/Practise/test/TSP_GA/cmake-build-debug/CMakeFiles/TSP_GA.dir
-/Users/margarita/Practise/test/TSP_GA/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/margarita/Practise/test/TSP_GA/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/margarita/Practise/test/TSP_GA/cmake-build-debug/CMakeFiles/TSP_GA_autogen_timestamp_deps.dir
-/Users/margarita/Practise/test/TSP_GA/cmake-build-debug/CMakeFiles/TSP_GA_autogen.dir
