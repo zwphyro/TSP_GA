@@ -5,13 +5,16 @@
 #include "Algorithm.h"
 #include<iostream>
 
-Algorithm::Algorithm(const graph_t &graph, int population_size) : graph(graph), population_size(population_size) {
+Algorithm::Algorithm(const graph_t &graph, int population_size) : graph(graph), population_size(population_size)
+{
 
 }
 
-Population Algorithm::Gen_I() {
+Population Algorithm::Gen_I()
+{
     std::vector<chromosome_t> generation;
-    for (int i = 0; i < population_size; i++) {
+    for (int i = 0; i < population_size; i++)
+    {
         generation.emplace_back(graph.size());
         auto &currant_individual = generation.back();
 
@@ -22,8 +25,10 @@ Population Algorithm::Gen_I() {
         std::shuffle(currant_individual.begin(), currant_individual.end(), gen);
     }
 
-    for (int i = 0; i < generation.size(); i++) {
-        for (int j = 0; j < generation[i].size(); j++) {
+    for (int i = 0; i < generation.size(); i++)
+    {
+        for (int j = 0; j < generation[i].size(); j++)
+        {
             std::cout << generation[i][j] << " ";
         }
         std::cout << std::endl;

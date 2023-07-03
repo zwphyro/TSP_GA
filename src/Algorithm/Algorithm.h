@@ -13,7 +13,8 @@
 #include "../data-structures/Population.h"
 #include "../data-structures/PopulationList.h"
 
-class Algorithm {
+class Algorithm
+{
 public:
     const graph_t &graph;
     int population_size;

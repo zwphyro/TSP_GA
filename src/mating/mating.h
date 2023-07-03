@@ -3,7 +3,8 @@
 
 #include "../data-structures/Chromosome.h"
 
-class Mating {
+class Mating
+{
 public:
     chromosome_t ordered_crossover(const chromosome_t &parent_1, const chromosome_t &parent_2, int crossover_start,
                                    int crossover_end);
