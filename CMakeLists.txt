@@ -20,7 +20,7 @@ find_package(Qt5 COMPONENTS
         REQUIRED)
 
 
-add_executable(TSP_GA src/main.cpp src/ui/mainwindow.cpp src/data-structures/Population.h src/data-structures/Population.cpp src/data-structures/Graph.h src/data-structures/Chromosome.h src/data-structures/PopulationList.h)
+add_executable(TSP_GA src/main.cpp src/ui/mainwindow.cpp src/data-structures/Population.h src/data-structures/Population.cpp src/data-structures/Graph.h src/data-structures/Chromosome.h src/data-structures/PopulationList.h src/crossover/mating.cpp src/crossover/mating.h)
 
 target_link_libraries(TSP_GA
         Qt5::Core
