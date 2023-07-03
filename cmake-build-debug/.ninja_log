@@ -1,0 +1,27 @@
+# ninja log v5
+0	1426	1688392393309874261	TSP_GA_autogen/timestamp	427a72677c0c94a0
+0	1426	1688392393309874261	TSP_GA_autogen/mocs_compilation.cpp	427a72677c0c94a0
+0	1426	1688392393309874261	/Users/margarita/Practise/test/TSP_GA/cmake-build-debug/TSP_GA_autogen/timestamp	427a72677c0c94a0
+0	1426	1688392393309874261	/Users/margarita/Practise/test/TSP_GA/cmake-build-debug/TSP_GA_autogen/mocs_compilation.cpp	427a72677c0c94a0
+1427	4262	1688392396154818987	CMakeFiles/TSP_GA.dir/TSP_GA_autogen/mocs_compilation.cpp.o	887f5dffaf526719
+1427	4278	1688392396173350238	CMakeFiles/TSP_GA.dir/src/main.cpp.o	62286c609b4a1c71
+1428	4721	1688392396615380769	CMakeFiles/TSP_GA.dir/src/ui/mainwindow.cpp.o	cf10c703c0eef3a7
+4267	5039	1688392396944762662	CMakeFiles/TSP_GA.dir/src/data-structures/Population.cpp.o	d43e1e689df07de9
+5040	5195	1688392397097562714	TSP_GA	ea97aab178a0efa5
+73	3428	1688392450914255000	TSP_GA_autogen/timestamp	427a72677c0c94a0
+73	3428	1688392450914255000	TSP_GA_autogen/mocs_compilation.cpp	427a72677c0c94a0
+73	3428	1688392450914255000	/Users/margarita/Practise/test/TSP_GA/cmake-build-debug/TSP_GA_autogen/timestamp	427a72677c0c94a0
+73	3428	1688392450914255000	/Users/margarita/Practise/test/TSP_GA/cmake-build-debug/TSP_GA_autogen/mocs_compilation.cpp	427a72677c0c94a0
+3428	11484	1688392458995692118	CMakeFiles/TSP_GA.dir/TSP_GA_autogen/mocs_compilation.cpp.o	887f5dffaf526719
+3430	11499	1688392459016458122	CMakeFiles/TSP_GA.dir/src/main.cpp.o	62286c609b4a1c71
+0	37	0	CMakeFiles/clean.additional	a6b4b0ec4cb78dcb
+37	52	0	clean	3c8e6cc385ee00ba
+35	2056	1688392531883210742	TSP_GA_autogen/timestamp	427a72677c0c94a0
+35	2056	1688392531883210742	TSP_GA_autogen/mocs_compilation.cpp	427a72677c0c94a0
+35	2056	1688392531883210742	/Users/margarita/Practise/test/TSP_GA/cmake-build-debug/TSP_GA_autogen/timestamp	427a72677c0c94a0
+35	2056	1688392531883210742	/Users/margarita/Practise/test/TSP_GA/cmake-build-debug/TSP_GA_autogen/mocs_compilation.cpp	427a72677c0c94a0
+2056	5549	1688392535393894939	CMakeFiles/TSP_GA.dir/TSP_GA_autogen/mocs_compilation.cpp.o	887f5dffaf526719
+2058	5554	1688392535400678451	CMakeFiles/TSP_GA.dir/src/main.cpp.o	62286c609b4a1c71
+2059	5976	1688392535826290623	CMakeFiles/TSP_GA.dir/src/ui/mainwindow.cpp.o	cf10c703c0eef3a7
+5549	6378	1688392536234030873	CMakeFiles/TSP_GA.dir/src/data-structures/Population.cpp.o	d43e1e689df07de9
+6379	6517	1688392536372833184	TSP_GA	ea97aab178a0efa5

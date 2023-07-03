@@ -1,0 +1,78 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "TSP_GA",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "TSP_GA::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TSP_GA-Debug-463f732a8ee8f5bbcb1e.json",
+					"name" : "TSP_GA",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TSP_GA_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TSP_GA_autogen-Debug-405fc34e9d432b9666d4.json",
+					"name" : "TSP_GA_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TSP_GA_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TSP_GA_autogen_timestamp_deps-Debug-b07d4e1fc25082b9cd1f.json",
+					"name" : "TSP_GA_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/margarita/Practise/test/TSP_GA/cmake-build-debug",
+		"source" : "/Users/margarita/Practise/test/TSP_GA"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}
