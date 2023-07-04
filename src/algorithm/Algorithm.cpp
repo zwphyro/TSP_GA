@@ -91,16 +91,6 @@ int Algorithm::switchToNextPopulation()
     populations_history.emplace_back(new_individuals, graph);
     current_population++;
 
-//    for (int i = 0; i < populations_history.back().size(); i++)
-//    {
-//        auto &current_chromosome = populations_history.back()[i];
-//        for (auto item: current_chromosome)
-//        {
-//            std::cout << item << ' ';
-//        }
-//        std::cout << "=> " << populations_history.back().getFitnessValues()[i] << std::endl;
-//    }
-
     if (populations_history.size() > max_population_history_size)
     {
         populations_history.pop_front();
