@@ -19,8 +19,9 @@ public:
     int switchToPreviousPopulation();
     void switchToLastPopulation();
 
-private:
     const graph_t &graph;
+    
+private:
     int population_size;
     double mutation_probability;
     int amount_of_crossover_dots;
