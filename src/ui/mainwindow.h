@@ -6,7 +6,8 @@
 #include <QDebug>
 #include<iostream>
 #include <QVBoxLayout>
-
+#include "../algorithm/Algorithm.h"
+#include "./controller/ControllerUI.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -23,15 +24,21 @@ public:
 
 private slots:
     void onPushButtonAddEdgeClicked();
-    void on_pushButton_generate_add_clicked();
     void onFileChoose();
-    void onGraphGenerate();
+    void onGraphGenerateAdd();
+    void onGraphGenerateFile();
+    void onGraphGenerateRandom();
+    void testSlot();
+    void onSaveClicked();
+
 
 private:
     Ui::MainWindow *ui;
     std::vector<std::pair<int,std::pair<int,int>>> list_edge;
     std::vector<std::vector<int>> graph_t;
     QVBoxLayout *layout;
+    Algorithm* ui_slave = nullptr;
+    ControllerUI controllerUi;
 
     void initConnectTabFile();
     void initConnectTabAddVertex();

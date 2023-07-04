@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
     initConnectTabAddVertex();
     initConnectTabRandom();
 
+    connect(ui->pushButton_save,SIGNAL(clicked()),this,SLOT(onSaveClicked()));
+
     ui->scrollArea_list_of_edge->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     ui->scrollArea_list_of_edge->setWidgetResizable(true);
 
@@ -48,34 +50,6 @@ void MainWindow::onPushButtonAddEdgeClicked() {
     layout->addWidget(label_added);
 }
 
-void MainWindow::on_pushButton_generate_add_clicked(){
-    const int n = ui->spinBox_enter_city_add->value();
-    std::cout << n;
-    graph_t.resize(n);
-    for(int i = 0; i < n; i++){
-        graph_t[i].resize(n,INT_MAX);
-    }
-
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < n; j++){
-            std::cout << graph_t[i][j] << " ";
-        }
-        std::cout<<"\n";
-    }
-
-    for(int i = 0; i < list_edge.size(); i++){
-        if(list_edge[i].second.first < n && list_edge[i].second.second < n) {
-            graph_t[list_edge[i].second.first][list_edge[i].second.second] = list_edge[i].first;
-        }
-    }
-
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < n; j++){
-            std::cout << graph_t[i][j] << " ";
-        }
-        std::cout<<"\n";
-    }
-}
 
 
 void MainWindow::onFileChoose(){
@@ -87,11 +61,11 @@ void MainWindow::initConnectTabFile(){
     connect(ui->pushButton_choose_file,SIGNAL(clicked()),
             this, SLOT(onFileChoose()));
     connect(ui->pushButton_generate_file,SIGNAL(clicked()),
-            this,SLOT(onGraphGenerate()));
+            this,SLOT(onGraphGenerateFile()));
 }
 void MainWindow::initConnectTabAddVertex() {
     connect(ui->pushButton_generate_add,SIGNAL(clicked()),
-            this,SLOT(onGraphGenerate()));
+            this,SLOT(onGraphGenerateAdd()));
 
     connect(ui->pushButton_add_edge,SIGNAL(clicked()),
             this,SLOT(onPushButtonAddEdgeClicked()));
@@ -100,29 +74,68 @@ void MainWindow::initConnectTabAddVertex() {
 void MainWindow::initConnectTabRandom() {
 
     connect(ui->pushButton_full_rnd,SIGNAL(clicked()),
-            this,SLOT(onGraphGenerate()));
+            this,SLOT(onGraphGenerateRandom()));
 
     connect(ui->pushButton_generate_rnd,SIGNAL(clicked()),
-            this,SLOT(onGraphGenerate()));
+            this,SLOT(onGraphGenerateRandom()));
 }
 
 void MainWindow::initConnectBlockControl() {
     connect(ui->pushButton_skip,SIGNAL(clicked()),
-            this,SLOT(onGraphGenerate()));
+            this,SLOT(testSlot()));
 
     connect(ui->pushButton_start,SIGNAL(clicked()),
-            this,SLOT(onGraphGenerate()));
+            this,SLOT(testSlot()));
 
     connect(ui->pushButton_step_back,SIGNAL(clicked()),
-            this,SLOT(onGraphGenerate()));
+            this,SLOT(testSlot()));
 
     connect(ui->pushButton_step_forward,SIGNAL(clicked()),
-            this,SLOT(onGraphGenerate()));
+            this,SLOT(testSlot()));
 }
 
-void MainWindow::onGraphGenerate() {
+void MainWindow::onGraphGenerateAdd() {
+    if(ui_slave!= nullptr){
+        delete ui_slave;
+    }
 
-    std::cout<<"work\n";
+    ui_slave = new Algorithm(controllerUi.initAdd(list_edge,ui->spinBox_enter_city_add->value()),
+                             controllerUi.settings.population_size);
+}
+void MainWindow::onGraphGenerateRandom() {
+    if(ui_slave!= nullptr){
+        delete ui_slave;
+    }
+    ui_slave = new Algorithm(controllerUi.initRandom(ui->spinBox_enter_city_rnd->value()),
+                             controllerUi.settings.population_size);
+
+    //std::cout<<"work\n";
+}
+void MainWindow::onGraphGenerateFile() {
+
+    if(ui_slave!= nullptr){
+        delete ui_slave;
+    }
+
+    ui_slave = new Algorithm(controllerUi.initFile(ui->label_chosen_file->text().toStdString()),
+                             controllerUi.settings.population_size);
+}
+void MainWindow::testSlot() {
+    std::cout<<"hohohohohoho"<<"\n";
+}
+
+
+void MainWindow::onSaveClicked() {
+    controllerUi.settings.count_crossover = ui->spinBox_user_count_crossingover->value();
+    controllerUi.settings.probability = ui->doubleSpinBox_p_mutation->value();
+    controllerUi.settings.population_size = ui->spinBox_user_count_population->value();
+    //check
+
+
+    QString str = "Your data: cross_dot = " + QString::number(controllerUi.settings.count_crossover)
+            + ", population_size = " + QString::number(controllerUi.settings.population_size)
+            + ", probability = " + QString::number(controllerUi.settings.probability);
+    ui->label_settings->setText(str);
 }
 
 
