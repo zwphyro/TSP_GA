@@ -42,7 +42,5 @@ const chromosome_t &RouletteWheelSelection::getIndividual()
         }
     }
 
-    std::cout << right_bound << std::endl;
-
-    return population[right_bound];
+    return population[left_bound];
 }

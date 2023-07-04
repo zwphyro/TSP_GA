@@ -9,10 +9,13 @@
 #include "../data-structures/Population.h"
 #include<algorithm>
 
+/*
+ * Class that selects individuals for the next generation
+ */
 class NewGenerationSelection
 {
 public:
-    std::vector<chromosome_t> createNewGeneration(Population ancestors, Population descendants);
+    std::vector<chromosome_t> createNewGeneration(const Population &left, const Population &right);
 };
 
 

@@ -5,34 +5,35 @@
 #include <iostream>
 #include "NewGenerationSelection.h"
 
-
-std::vector<chromosome_t> NewGenerationSelection::createNewGeneration(Population ancestors, Population descendants)
+/*
+ * Method that selects the best individuals from ancestral and descendant populations
+ */
+std::vector<chromosome_t>
+NewGenerationSelection::createNewGeneration(const Population &ancestors, const Population &descendants)
 {
+    std::vector<std::pair<chromosome_t, long>> all_individuals;
 
-    std::vector<std::pair<chromosome_t, long>> new_generation;
-
-
-    new_generation.reserve(ancestors.size());
+    all_individuals.reserve(ancestors.size() + descendants.size());
     for (int i = 0; i < ancestors.size(); i++)
     {
-        new_generation.emplace_back(ancestors.getIndividuals()[i], ancestors.getFitnessValues()[i]);
+        all_individuals.emplace_back(ancestors.getIndividuals()[i], ancestors.getFitnessValues()[i]);
     }
     for (int i = 0; i < descendants.size(); i++)
     {
-        new_generation.emplace_back(descendants.getIndividuals()[i], descendants.getFitnessValues()[i]);
+        all_individuals.emplace_back(descendants.getIndividuals()[i], descendants.getFitnessValues()[i]);
     }
 
-    auto comparePairs = [](const std::pair<chromosome_t, long> &p1, const std::pair<chromosome_t, long> &p2)
+    auto compare = [](const std::pair<chromosome_t, long> &left, const std::pair<chromosome_t, long> &right)
     {
-        return p1.second < p2.second;
+        return left.second < right.second;
     };
-    std::sort(new_generation.begin(), new_generation.end(), comparePairs);
+    std::sort(all_individuals.begin(), all_individuals.end(), compare);
 
     std::vector<chromosome_t> new_population;
-
+    new_population.reserve(ancestors.size());
     for (int i = 0; i < ancestors.size(); i++)
     {
-        new_population.emplace_back(new_generation[i].first);
+        new_population.emplace_back(all_individuals[i].first);
     }
 
     return new_population;
