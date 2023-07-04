@@ -5,14 +5,11 @@
 #ifndef TSP_GA_ALGORITHM_H
 #define TSP_GA_ALGORITHM_H
 
-#include <vector>
-#include <algorithm>
-#include <random>
-#include "../data-structures/Graph.h"
-#include "../data-structures/Population.h"
 #include "../data-structures/PopulationList.h"
 
-
+/*
+ * Class that implements genetic algorithm interface
+ */
 class Algorithm
 {
 public:
@@ -28,14 +25,12 @@ private:
     double mutation_probability;
     int amount_of_crossover_dots;
     int max_population_history_size;
-
     bool end_detector;
 
     std::list<Population>::iterator current_population;
     population_list_t populations_history;
 
-    Population getFirstGeneration();
-
+    void generateFirstPopulation();
 };
 
 

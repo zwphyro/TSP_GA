@@ -3,29 +3,38 @@
 //
 
 #include "Algorithm.h"
-#include "../parents-selection/RouletteWheelSelection.h"
 #include "../mating/mating.h"
+#include "../parents-selection/RouletteWheelSelection.h"
 #include "../new-generation-selection/NewGenerationSelection.h"
+#include <random>
 #include<iostream>
 
-Algorithm::Algorithm(const graph_t &graph, int population_size) : graph(graph), population_size(population_size)
+/*
+ * Constructor of the algorithm class, initializes the proles and creates the first population
+ */
+Algorithm::Algorithm(const graph_t &graph, int population_size) : graph(graph)
 {
+    this->population_size = population_size;
     mutation_probability = 0.2;
     amount_of_crossover_dots = 2;
-    populations_history.emplace_back(getFirstGeneration());
-    current_population = populations_history.begin();
     max_population_history_size = 5;
-
     end_detector = false;
+
+    current_population = populations_history.begin();
+
+    generateFirstPopulation();
 }
 
-Population Algorithm::getFirstGeneration()
+/*
+ * Method creating the first population to start the algorithm
+ */
+void Algorithm::generateFirstPopulation()
 {
-    std::vector<chromosome_t> generation;
+    std::vector<chromosome_t> individuals;
     for (int i = 0; i < population_size; i++)
     {
-        generation.emplace_back(graph.size());
-        auto &currant_individual = generation.back();
+        individuals.emplace_back(graph.size());
+        auto &currant_individual = individuals.back();
 
         std::iota(currant_individual.begin(), currant_individual.end(), 0);
 
@@ -34,14 +43,21 @@ Population Algorithm::getFirstGeneration()
         std::shuffle(currant_individual.begin(), currant_individual.end(), generator);
     }
 
-    return {generation, graph};
+    populations_history.emplace_back(individuals, graph);
 }
 
+/*
+ * Returns a reference to the current population
+ */
 const Population &Algorithm::getCurrentPopulation() const
 {
     return *current_population;
 }
 
+/*
+ * Changes the current population to the next population if possible, otherwise it creates the next population
+ * If the algorithm has completed its work and cannot create the next population, it returns 1
+ */
 int Algorithm::switchToNextPopulation()
 {
     auto next_population = current_population;
@@ -57,6 +73,7 @@ int Algorithm::switchToNextPopulation()
         return 1;
     }
 
+    // put this part in a separate method of the Mating class
     RouletteWheelSelection selector(*current_population);
     std::vector<chromosome_t> children;
     children.reserve(population_size);
@@ -84,13 +101,13 @@ int Algorithm::switchToNextPopulation()
         children.back() = mater.mutation(children.back(), (int) (mutation_probability * graph.size()));
     }
     Population children_population(children, graph);
+    // end
 
     NewGenerationSelection new_generation_selector;
-
     auto new_individuals = new_generation_selector.createNewGeneration(*current_population, children_population);
+
     populations_history.emplace_back(new_individuals, graph);
     current_population++;
-
     if (populations_history.size() > max_population_history_size)
     {
         populations_history.pop_front();
@@ -99,15 +116,24 @@ int Algorithm::switchToNextPopulation()
     return 0;
 }
 
+/*
+ * Changes the current population to the next population
+ * If the current population is the last in the list, it returns 1
+ */
 int Algorithm::switchToPreviousPopulation()
 {
     if (current_population == populations_history.begin())
+    {
         return 1;
+    }
 
     current_population--;
     return 0;
 }
 
+/*
+ * Runs the algorithm until the stop condition is met, changes the current population to the last one received
+ */
 void Algorithm::switchToLastPopulation()
 {
 
