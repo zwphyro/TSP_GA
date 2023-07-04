@@ -10,19 +10,15 @@ MainWindow::MainWindow(QWidget *parent)
     layout = new QVBoxLayout(this);
     ui->scrollAreaWidgetContents->setLayout(layout);
 
-//    connect(ui->pushButton_add_edge,SIGNAL(clicked()),
-//            this, SLOT(on_pushButton_add_edge_clicked));
-//    connect(ui->pushButton_generate_add,SIGNAL(clicked()),
-//            this, SLOT(on_pushButton_generate_add_clicked));
-//    connect(ui->pushButton_choose_file,SIGNAL(clicked()),
-//            this, SLOT(onFileChoose()));
+    //paint = new PaintWidget(ui->widget_algorithm_demonstartion);
+    scene = new QGraphicsScene(this);
+    ui->graphicsView->setScene(scene);
+
 
     initConnectTabFile();
     initConnectBlockControl();
     initConnectTabAddVertex();
     initConnectTabRandom();
-
-    connect(ui->pushButton_save,SIGNAL(clicked()),this,SLOT(onSaveClicked()));
 
     ui->scrollArea_list_of_edge->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     ui->scrollArea_list_of_edge->setWidgetResizable(true);
@@ -85,7 +81,7 @@ void MainWindow::initConnectBlockControl() {
             this,SLOT(testSlot()));
 
     connect(ui->pushButton_start,SIGNAL(clicked()),
-            this,SLOT(testSlot()));
+            this,SLOT(onStartClicked()));
 
     connect(ui->pushButton_step_back,SIGNAL(clicked()),
             this,SLOT(testSlot()));
@@ -101,6 +97,7 @@ void MainWindow::onGraphGenerateAdd() {
 
     ui_slave = new Algorithm(controllerUi.initAdd(list_edge,ui->spinBox_enter_city_add->value()),
                              controllerUi.settings.population_size);
+    drawGraph();
 }
 void MainWindow::onGraphGenerateRandom() {
     if(ui_slave!= nullptr){
@@ -109,7 +106,8 @@ void MainWindow::onGraphGenerateRandom() {
     ui_slave = new Algorithm(controllerUi.initRandom(ui->spinBox_enter_city_rnd->value()),
                              controllerUi.settings.population_size);
 
-    //std::cout<<"work\n";
+    drawGraph();
+
 }
 void MainWindow::onGraphGenerateFile() {
 
@@ -119,6 +117,10 @@ void MainWindow::onGraphGenerateFile() {
 
     ui_slave = new Algorithm(controllerUi.initFile(ui->label_chosen_file->text().toStdString()),
                              controllerUi.settings.population_size);
+
+
+
+    drawGraph();
 }
 void MainWindow::testSlot() {
     std::cout<<"hohohohohoho"<<"\n";
@@ -139,3 +141,52 @@ void MainWindow::onSaveClicked() {
 }
 
 
+
+void MainWindow::drawGraph(){
+
+    scene->clear();
+
+    QBrush greenBrush(Qt::green);
+    QBrush blueBrush(Qt::blue);
+    QPen outlinePen(Qt::black);
+    outlinePen.setWidth(2);
+
+
+    unsigned n = ui_slave->graph.size();
+    Point *list_point = new Point[n];
+    double angle = 0;
+    unsigned main_radius = 120;
+    unsigned point_radius = 40;
+
+
+    for(int i = 0; i < n; i++){
+        list_point[i].x = main_radius*cos(angle*3.14/180);
+        list_point[i].y = main_radius*sin(angle*3.14/180);
+        angle = angle + 360.0/n;
+    }
+
+    for(int i = 0; i < n; i++){
+        for(int j = i ; j < n; j++){
+            //std::cout<<ui_slave->graph[i][j];
+            if(ui_slave->graph[i][j]!=0 && ui_slave->graph[i][j]!=INT_MAX){
+                scene->addLine(list_point[i].x + CONST_SHIFT_LINE,list_point[i].y + CONST_SHIFT_LINE,
+                               list_point[j].x + CONST_SHIFT_LINE,list_point[j].y + CONST_SHIFT_LINE);
+            }
+        }
+    }
+
+    for(int i = 0; i < n; i++){
+        scene -> addEllipse(list_point[i].x,list_point[i].y ,point_radius, point_radius,
+                            outlinePen, Qt::white);
+        text = scene ->addText(QString::number(i));
+        text->setPos(list_point[i].x + CONST_SHIFT_TEXT,list_point[i].y + CONST_SHIFT_TEXT);
+    }
+
+    //rectangle = scene->addRect(100, 0, 80, 100, outlinePen, blueBrush);
+
+}
+
+void MainWindow::onStartClicked() {
+
+
+}

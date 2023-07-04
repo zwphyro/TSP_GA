@@ -8,10 +8,27 @@
 #include <QVBoxLayout>
 #include "../algorithm/Algorithm.h"
 #include "./controller/ControllerUI.h"
+#include <math.h>
+//#include "PaintWidget.h"
+
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QGraphicsItem>
+
+#define CONST_SHIFT_LINE 20
+#define CONST_SHIFT_TEXT 10
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+
+
+struct Point{
+    int x;
+    int y;
+};
 
 
 class MainWindow : public QMainWindow
@@ -25,11 +42,16 @@ public:
 private slots:
     void onPushButtonAddEdgeClicked();
     void onFileChoose();
+
     void onGraphGenerateAdd();
     void onGraphGenerateFile();
     void onGraphGenerateRandom();
     void testSlot();
     void onSaveClicked();
+
+    void onStartClicked();
+
+
 
 
 private:
@@ -39,10 +61,19 @@ private:
     QVBoxLayout *layout;
     Algorithm* ui_slave = nullptr;
     ControllerUI controllerUi;
+//    PaintWidget* paint;
+
+    QGraphicsScene *scene;
+//    QGraphicsEllipseItem *ellipse;
+//    QGraphicsRectItem *rectangle;
+    QGraphicsTextItem *text;
 
     void initConnectTabFile();
     void initConnectTabAddVertex();
     void initConnectTabRandom();
     void initConnectBlockControl();
+    void drawGraph();
+
+
 };
 #endif // MAINWINDOW_H
