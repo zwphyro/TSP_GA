@@ -20,9 +20,8 @@ Algorithm::Algorithm(const graph_t &graph, int population_size) : graph(graph)
     max_population_history_size = 5;
     end_detector = false;
 
-    current_population = populations_history.begin();
-
     generateFirstPopulation();
+    current_population = populations_history.begin();
 }
 
 /*
