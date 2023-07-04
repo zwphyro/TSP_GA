@@ -9,9 +9,11 @@
 chromosome_t Mating::ordered_crossover(const chromosome_t &parent_1, const chromosome_t &parent_2, int crossover_start,
                                        int crossover_end) {
 
-    std::vector<int> offspring(parent_1.begin(), parent_1.begin() +
-                                                 crossover_end);        // create new path with same len as parents with x in each elem
+    std::vector<int> offspring(parent_2.begin(), parent_2.begin() +
+                                                 crossover_start);        // create new path with same len as parents with x in each elem
 
+    offspring.insert(offspring.end(), parent_1.begin() + crossover_start,
+                     parent_1.begin() + crossover_end);
     offspring.insert(offspring.end(), parent_2.begin() + crossover_end,
                      parent_2.end());  // fill into offspring a part of parent_1
 
