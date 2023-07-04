@@ -20,7 +20,17 @@ find_package(Qt5 COMPONENTS
         REQUIRED)
 
 
-add_executable(TSP_GA src/main.cpp src/ui/mainwindow.cpp src/data-structures/Population.h src/data-structures/Population.cpp src/data-structures/Graph.h src/data-structures/Chromosome.h src/data-structures/PopulationList.h src/Algorithm/Algorithm.cpp src/Algorithm/Algorithm.h src/mating/mating.cpp src/mating/mating.h src/parents-selection/RouletteWheelSelection.h src/parents-selection/RouletteWheelSelection.cpp src/new-generation-selection/NewGenerationSelection.h src/new-generation-selection/NewGenerationSelection.cpp)
+
+add_executable(TSP_GA src/main.cpp src/ui/mainwindow.cpp src/data-structures/Population.h
+        src/data-structures/Population.cpp src/data-structures/Graph.h src/data-structures/Chromosome.h
+        src/data-structures/PopulationList.h src/algorithm/Algorithm.cpp src/algorithm/Algorithm.h
+        src/mating/mating.cpp src/mating/mating.h src/parents-selection/RouletteWheelSelection.h
+        src/parents-selection/RouletteWheelSelection.cpp src/new-generation-selection/NewGenerationSelection.h 
+        src/new-generation-selection/NewGenerationSelection.cpp
+        src/ui/controller/ControllerUI.cpp
+        src/ui/controller/ControllerUI.h src/ui/controller/CheckData.cpp
+        src/ui/controller/CheckData.h src/ui/controller/Settings.h)
+
 
 target_link_libraries(TSP_GA
         Qt5::Core
