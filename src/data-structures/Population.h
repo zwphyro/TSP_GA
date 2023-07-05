@@ -25,5 +25,4 @@ private:
 
 };
 
-
 #endif //TSP_GA_POPULATION_H

@@ -2,8 +2,7 @@
 #include "./ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-        : QMainWindow(parent)
-        , ui(new Ui::MainWindow)
+        : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
@@ -37,10 +36,11 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::onPushButtonAddEdgeClicked() {
-    std::pair<int,std::pair<int,int>> element =
+void MainWindow::onPushButtonAddEdgeClicked()
+{
+    std::pair<int, std::pair<int, int>> element =
             std::pair(ui->spinBox_distance_between_cities->value(),
-                      std::pair(ui->spinBox_departure_city->value(),ui->spinBox_arrival_city->value()));
+                      std::pair(ui->spinBox_departure_city->value(), ui->spinBox_arrival_city->value()));
 
     list_edge.push_back(element);
     QString added_line = QString::number(ui->spinBox_departure_city->value()) + " -> "
@@ -52,39 +52,45 @@ void MainWindow::onPushButtonAddEdgeClicked() {
 }
 
 
-
-void MainWindow::onFileChoose(){
-    QString str = QFileDialog::getOpenFileName(0, "Выбор папки", "","*txt");
+void MainWindow::onFileChoose()
+{
+    QString str = QFileDialog::getOpenFileName(0, "Выбор папки", "", "*txt");
     ui->label_chosen_file->setText(str);
 }
 
-void MainWindow::initConnectTabFile(){
-    connect(ui->pushButton_choose_file,SIGNAL(clicked()),
+void MainWindow::initConnectTabFile()
+{
+    connect(ui->pushButton_choose_file, SIGNAL(clicked()),
             this, SLOT(onFileChoose()));
-    connect(ui->pushButton_generate_file,SIGNAL(clicked()),
-            this,SLOT(onGraphGenerateFile()));
+    connect(ui->pushButton_generate_file, SIGNAL(clicked()),
+            this, SLOT(onGraphGenerateFile()));
 }
-void MainWindow::initConnectTabAddVertex() {
-    connect(ui->pushButton_generate_add,SIGNAL(clicked()),
-            this,SLOT(onGraphGenerateAdd()));
 
-    connect(ui->pushButton_add_edge,SIGNAL(clicked()),
-            this,SLOT(onPushButtonAddEdgeClicked()));
+void MainWindow::initConnectTabAddVertex()
+{
+    connect(ui->pushButton_generate_add, SIGNAL(clicked()),
+            this, SLOT(onGraphGenerateAdd()));
+
+    connect(ui->pushButton_add_edge, SIGNAL(clicked()),
+            this, SLOT(onPushButtonAddEdgeClicked()));
 }
-void MainWindow::initConnectTabRandom() {
 
-    connect(ui->pushButton_full_rnd,SIGNAL(clicked()),
-            this,SLOT(onGraphGenerateRandom()));
+void MainWindow::initConnectTabRandom()
+{
+    connect(ui->pushButton_full_rnd, SIGNAL(clicked()),
+            this, SLOT(onGraphGenerateRandom()));
 
-    connect(ui->pushButton_generate_rnd,SIGNAL(clicked()),
-            this,SLOT(onGraphGenerateRandom()));
+    connect(ui->pushButton_generate_rnd, SIGNAL(clicked()),
+            this, SLOT(onGraphGenerateRandom()));
 }
-void MainWindow::initConnectBlockControl() {
-    connect(ui->pushButton_skip,SIGNAL(clicked()),
-            this,SLOT(onSkipClicked()));
 
-    connect(ui->pushButton_start,SIGNAL(clicked()),
-            this,SLOT(onStartClicked()));
+void MainWindow::initConnectBlockControl()
+{
+    connect(ui->pushButton_skip, SIGNAL(clicked()),
+            this, SLOT(testSlot()));
+
+    connect(ui->pushButton_start, SIGNAL(clicked()),
+            this, SLOT(onStartClicked()));
 
     connect(ui->pushButton_step_back,SIGNAL(clicked()),
             this,SLOT(onPrevClicked()));
@@ -93,15 +99,20 @@ void MainWindow::initConnectBlockControl() {
             this,SLOT(onNextClicked()));
 }
 
-void MainWindow::onGraphGenerateAdd() {
+void MainWindow::onGraphGenerateAdd() 
+{
     controllerUi.initAdd(list_edge,ui->spinBox_enter_city_add->value());
     drawGraph();
 }
-void MainWindow::onGraphGenerateRandom() {
+
+void MainWindow::onGraphGenerateRandom() 
+{
     controllerUi.initRandom(ui->spinBox_enter_city_rnd->value());
     drawGraph();
 }
-void MainWindow::onGraphGenerateFile() {
+
+void MainWindow::onGraphGenerateFile() 
+{
     controllerUi.initFile(ui->label_chosen_file->text().toStdString());
     drawGraph();
 }
@@ -112,7 +123,8 @@ void MainWindow::radioButtonClicked() {
     chooseWhatToDraw();
 }
 
-void MainWindow::onSaveClicked() {
+void MainWindow::onSaveClicked()
+{
     controllerUi.settings.count_crossover = ui->spinBox_user_count_crossingover->value();
     controllerUi.settings.probability = ui->doubleSpinBox_p_mutation->value();
     controllerUi.settings.population_size = ui->spinBox_user_count_population->value();
@@ -120,8 +132,8 @@ void MainWindow::onSaveClicked() {
 
 
     QString str = "Your data: cross_dot = " + QString::number(controllerUi.settings.count_crossover)
-            + ", population_size = " + QString::number(controllerUi.settings.population_size)
-            + ", probability = " + QString::number(controllerUi.settings.probability);
+                  + ", population_size = " + QString::number(controllerUi.settings.population_size)
+                  + ", probability = " + QString::number(controllerUi.settings.probability);
     ui->label_settings->setText(str);
 }
 
@@ -172,7 +184,8 @@ void MainWindow::onSkipClicked() {
 }
 
 
-void MainWindow::drawGraph(){
+void MainWindow::drawGraph()
+{
 
     if(!list_point)
         delete list_point;
@@ -192,21 +205,26 @@ void MainWindow::drawGraph(){
 
 
 
-    for(int i = 0; i < n; i++){
-        list_point[i].x = main_radius*cos(angle*3.14/180);
-        list_point[i].y = main_radius*sin(angle*3.14/180);
-        angle = angle + 360.0/n;
+    for (int i = 0; i < n; i++)
+    {
+        list_point[i].x = main_radius * cos(angle * 3.14 / 180);
+        list_point[i].y = main_radius * sin(angle * 3.14 / 180);
+        angle = angle + 360.0 / n;
     }
 
-    for(int i = 0; i < n; i++){
-        for(int j = i ; j < n; j++){
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i; j < n; j++)
+        {
             //std::cout<<ui_slave->graph[i][j];
-            if(controllerUi.getGraph()[i][j]!=0 && controllerUi.getGraph()[i][j]!=INT_MAX){
+            if(controllerUi.getGraph()[i][j]!=0 && controllerUi.getGraph()[i][j]!=INT_MAX)
+            {
                 scene->addLine(list_point[i].x + CONST_SHIFT_LINE,list_point[i].y + CONST_SHIFT_LINE,
                                list_point[j].x + CONST_SHIFT_LINE,list_point[j].y + CONST_SHIFT_LINE);
             }
         }
     }
+
 
 //    for(int i = 0; i < n; i++){
 //        scene -> addEllipse(list_point[i].x,list_point[i].y ,point_radius, point_radius,
@@ -220,12 +238,14 @@ void MainWindow::drawGraph(){
 
 }
 
-void MainWindow::drawPoints(int n) {
+void MainWindow::drawPoints(int n) 
+{
     unsigned point_radius = 40;
     QPen outlinePen(Qt::black);
     outlinePen.setWidth(2);
 
-    for(int i = 0; i < controllerUi.getGraph().size(); i++){
+    for(int i = 0; i < controllerUi.getGraph().size(); i++)
+    {
         scene -> addEllipse(list_point[i].x,list_point[i].y ,point_radius, point_radius,
                             outlinePen, Qt::white);
         text = scene ->addText(QString::number(i));
@@ -234,13 +254,15 @@ void MainWindow::drawPoints(int n) {
 }
 
 
-void MainWindow::drawIndividual() {
+void MainWindow::drawIndividual() 
+{
     scene->clear();
     scene->update();
 
 
     int n = controllerUi.getGraph().size();
-    if(!list_point){
+    if(!list_point)
+    {
         //error mes
         return;
     }
@@ -248,57 +270,66 @@ void MainWindow::drawIndividual() {
     QPen outlinePen(Qt::red);
     outlinePen.setWidth(2);
 
-    if(ui->radioButton_best_individual->isChecked()){
-        for(int i = 0; i < n; i++){
+    if (ui->radioButton_best_individual->isChecked())
+    {
+        for (int i = 0; i < n; i++)
+        {
             int first_element = ui_slave->getCurrentPopulation().getBestIndividual().first[i];
             int second_element = ui_slave->getCurrentPopulation().getBestIndividual().first[i+1];
             scene->addLine(list_point[first_element].x + CONST_SHIFT_LINE,list_point[first_element].y + CONST_SHIFT_LINE,
                            list_point[second_element].x + CONST_SHIFT_LINE,list_point[second_element].y + CONST_SHIFT_LINE,
                            outlinePen);
         }
-    }else{
+    } else
+    {
 
     }
-
 
     drawPoints(n);
 
 
 }
 
-void MainWindow::drawPopulation() {
+void MainWindow::drawPopulation()
+{
     scene->clear();
 
     int N = ui_slave->getCurrentPopulation().getIndividuals().size();
 
-    for(int i = 0; i < N; i++){
-        QString str = QString::number(i+1)+") ";
-        for(int j = 0; j < controllerUi.getGraph().size(); j++){
+    for (int i = 0; i < N; i++){
+        QString str = QString::number(i+1) + ") ";
+        for (int j = 0; j < controllerUi.getGraph().size(); j++)
+        {
 
-            str+=QString::number(ui_slave->getCurrentPopulation().getIndividuals()[i][j]);
-            if(j!=controllerUi.getGraph().size()-1)
-                str+=" -> ";
+            str += QString::number(ui_slave->getCurrentPopulation().getIndividuals()[i][j]);
+            if (j != controllerUi.getGraph().size() - 1)
+                str += " -> ";
             else
-                str+=": ";
+                str += ": ";
         }
-        str+=QString::number(ui_slave->getCurrentPopulation().getFitnessValues()[i]);
-        scene->addText(str)->setPos(-CONST_SCENE_WIDTH,30*i-CONST_SCENE_HEIGHT);
+        str += QString::number(ui_slave->getCurrentPopulation().getFitnessValues()[i]);
+        scene->addText(str)->setPos(-CONST_SCENE_WIDTH, 30 * i - CONST_SCENE_HEIGHT);
 
     }
 
 }
 
-void MainWindow::chooseWhatToDraw() {
+void MainWindow::chooseWhatToDraw() 
+{
 
     std::cout<<"choose draw type\n";
 
-    if(ui->radioButton_best_individual->isChecked()){
+    if (ui->radioButton_best_individual->isChecked())
+    {
             drawIndividual();
-    }else if(ui->radioButton_worst_individual->isChecked()){
+    } else if (ui->radioButton_worst_individual->isChecked())
+    {
             drawIndividual();
-    }else if(ui->radioButton_full_population->isChecked()){
+    } else if (ui->radioButton_full_population->isChecked())
+    {
         drawPopulation();
-    }else{
+    } else
+    {
         //error message
     }
 

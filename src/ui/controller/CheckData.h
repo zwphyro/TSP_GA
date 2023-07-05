@@ -6,9 +6,9 @@
 #define TSP_GA_CHECKDATA_H
 
 
-class CheckData {
+class CheckData
+{
 
 };
-
 
 #endif //TSP_GA_CHECKDATA_H

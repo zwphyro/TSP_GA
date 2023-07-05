@@ -31,5 +31,4 @@ private:
     graph_t graph;
 };
 
-
 #endif //TSP_GA_CONTROLLERUI_H

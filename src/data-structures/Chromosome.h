@@ -8,5 +8,4 @@
  */
 typedef std::vector<int> chromosome_t;
 
-
 #endif //TSP_GA_CHROMOSOME_H

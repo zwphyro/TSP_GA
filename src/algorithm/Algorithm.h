@@ -20,7 +20,7 @@ public:
     void switchToLastPopulation();
 
     const graph_t &graph;
-    
+
 private:
     int population_size;
     double mutation_probability;

@@ -24,5 +24,4 @@ private:
 
 };
 
-
 #endif //TSP_GA_MATING_H

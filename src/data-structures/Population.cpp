@@ -10,7 +10,7 @@ Population::Population(const std::vector<chromosome_t> &individuals, const graph
     fitness_values.reserve(individuals.size());
 
     best_individual_index = 0;
-
+    
     for (auto &item: this->individuals)
     {
         long sum = 0;

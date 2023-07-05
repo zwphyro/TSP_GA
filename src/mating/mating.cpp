@@ -1,13 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <random>
 #include <map>
-
+#include "../randomizer/Randomizer.h"
 #include "mating.h"
 #include "../parents-selection/RouletteWheelSelection.h"
 #include "../algorithm/Algorithm.h"
-
 
 Mating::Mating(int chromosome_size, int amount_of_crossover_dots, double mutation_probability)
 {
@@ -57,13 +55,10 @@ Mating::ordered_crossover(const chromosome_t &first_parent, const chromosome_t &
     {
         while (map[multiple_instance_gen].size() > 1)
         {
-            std::random_device rd;            // rand num form internet
-            std::mt19937 gen(rd());            // might not be correct
-            std::uniform_int_distribution<int> multiple_instance_index(0, (int) map[multiple_instance_gen].size() - 1);
-            std::uniform_int_distribution<int> zero_instance_gen(0, (int) zero_instances.size() - 1);
+            Randomizer randomizer;
 
-            int random_multiple_instance_index = multiple_instance_index(gen);
-            int random_zero_instance_gen = zero_instance_gen(gen);
+            int random_multiple_instance_index = randomizer.getRandomInt(0, (int) map[mult_instances[i]].size() - 1);
+            int random_zero_instance_gen = randomizer.getRandomInt(0, (int) zero_instances.size() - 1);
 
             offspring[map[multiple_instance_gen][random_multiple_instance_index]] = zero_instances[random_zero_instance_gen];
             map[multiple_instance_gen].erase(map[multiple_instance_gen].begin() + random_multiple_instance_index);
@@ -76,14 +71,12 @@ Mating::ordered_crossover(const chromosome_t &first_parent, const chromosome_t &
 
 chromosome_t Mating::mutation(chromosome_t &chromosome, int mutation_rate)
 {
-    std::random_device rd;            // rand num form internet
-    std::mt19937 gen(rd());            // might not be correct
-    std::uniform_int_distribution<int> dist(0, chromosome.size() - 1);
+    Randomizer randomizer;
 
     for (int i = 0; i < mutation_rate; i++)
     {
-        int position_1 = dist(gen);
-        int position_2 = dist(gen);        // just swaps two cities
+        int position_1 = randomizer.getRandomInt(0, chromosome_size - 1);
+        int position_2 = randomizer.getRandomInt(0, chromosome_size - 1);
 
         std::swap(chromosome[position_1], chromosome[position_2]);
     }
@@ -93,14 +86,12 @@ chromosome_t Mating::mutation(chromosome_t &chromosome, int mutation_rate)
 
 chromosome_t Mating::mutation_switch(chromosome_t &chromosome, int mutation_rate)
 {
-    std::random_device rd;            // rand num form internet
-    std::mt19937 gen(rd());            // might not be correct
-    std::uniform_int_distribution<int> dist(0, chromosome.size() - 1);
+    Randomizer randomizer;
 
     for (int i = 0; i < mutation_rate; i++)
     {
-        int position_1 = dist(gen);
-        int position_2 = dist(gen);        // just swaps two cities
+        int position_1 = randomizer.getRandomInt(0, chromosome_size - 1);
+        int position_2 = randomizer.getRandomInt(0, chromosome_size - 1);
 
         std::reverse(chromosome.begin() + position_1, chromosome.begin() + position_2 + 1);
     }

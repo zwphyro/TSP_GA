@@ -7,7 +7,8 @@
 #include "../parents-selection/RouletteWheelSelection.h"
 #include "../new-generation-selection/NewGenerationSelection.h"
 #include <random>
-#include<iostream>
+#include "../randomizer/Randomizer.h"
+
 
 /*
  * Constructor of the algorithm class, initializes the proles and creates the first population
@@ -66,7 +67,7 @@ int Algorithm::switchToNextPopulation()
         current_population++;
         return 0;
     }
-
+    
     if (end_detector)
     {
         return 1;

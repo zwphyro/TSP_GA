@@ -15,5 +15,4 @@ private:
 
 };
 
-
 #endif //TSP_GA_ROULETTEWHEELSELECTION_H
