@@ -5,7 +5,7 @@
 #include "ControllerUI.h"
 #include "../../randomizer/Randomizer.h"
 
-void ControllerUI::initFile(std::string sourceFile) 
+bool ControllerUI::initFile(std::string sourceFile)
 {
     std::string sep = " ";
 
@@ -73,19 +73,13 @@ void ControllerUI::initFile(std::string sourceFile)
     }
 
 
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            std::cout << graph[i][j] << " ";
-        }
-        std::cout << "\n";
-    }
 
 
+
+    return check.checkGraph(graph);
 }
 
-void ControllerUI::initAdd(std::vector<std::pair<int,std::pair<int,int>>> list_edge, int n) 
+bool ControllerUI::initAdd(std::vector<std::pair<int,std::pair<int,int>>> list_edge, int n)
 {
     initMax(n);
     for (int i = 0; i < list_edge.size(); i++)
@@ -96,19 +90,12 @@ void ControllerUI::initAdd(std::vector<std::pair<int,std::pair<int,int>>> list_e
         }
     }
 
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            std::cout << graph[i][j] << " ";
-        }
-        std::cout << "\n";
-    }
 
 
+    return check.checkGraph(graph);
 }
 
-void ControllerUI::initRandom(int n) 
+bool ControllerUI::initRandom(int n)
 {
     Randomizer randomizer;
     if (n == 0)
@@ -120,21 +107,25 @@ void ControllerUI::initRandom(int n)
 
     for (int i = 0; i < n; i++)
     {
-        for (int j = 0; j < n; j++)
+        for (int j = i; j < n; j++)
         {
-            graph[i][j] = randomizer.getRandomInt(1, INT_MAX);
+            if (i == j)
+            {
+                graph[i][j] = INT_MAX;
+            }
+            else
+            {
+                graph[i][j] = randomizer.getRandomInt(1, INT_MAX);
+                graph[j][i] = graph[i][j];
+            }
+
+
         }
     }
 
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            std::cout << graph[i][j] << " ";
-        }
-        std::cout << "\n";
-    }
 
+
+    return check.checkGraph(graph);
 
 }
 

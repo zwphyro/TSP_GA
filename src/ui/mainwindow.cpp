@@ -87,7 +87,7 @@ void MainWindow::initConnectTabRandom()
 void MainWindow::initConnectBlockControl()
 {
     connect(ui->pushButton_skip, SIGNAL(clicked()),
-            this, SLOT(testSlot()));
+            this, SLOT(onSkipClicked()));
 
     connect(ui->pushButton_start, SIGNAL(clicked()),
             this, SLOT(onStartClicked()));
@@ -101,19 +101,29 @@ void MainWindow::initConnectBlockControl()
 
 void MainWindow::onGraphGenerateAdd() 
 {
-    controllerUi.initAdd(list_edge,ui->spinBox_enter_city_add->value());
+    if(!controllerUi.initAdd(list_edge,ui->spinBox_enter_city_add->value())){
+        QMessageBox::warning(this, "Внимание","Граф не очень, но мы поправили");
+    }
+
+    list_edge.resize(0);
+
+
     drawGraph();
 }
 
 void MainWindow::onGraphGenerateRandom() 
 {
-    controllerUi.initRandom(ui->spinBox_enter_city_rnd->value());
+    if(!controllerUi.initRandom(ui->spinBox_enter_city_rnd->value())){
+        QMessageBox::warning(this, "Внимание","Граф не очень, но мы поправили");
+    }
     drawGraph();
 }
 
 void MainWindow::onGraphGenerateFile() 
 {
-    controllerUi.initFile(ui->label_chosen_file->text().toStdString());
+    if(!controllerUi.initFile(ui->label_chosen_file->text().toStdString())){
+        QMessageBox::warning(this, "Внимание","Граф не очень, но мы поправили");
+    }
     drawGraph();
 }
 
@@ -128,8 +138,17 @@ void MainWindow::onSaveClicked()
     controllerUi.settings.count_crossover = ui->spinBox_user_count_crossingover->value();
     controllerUi.settings.probability = ui->doubleSpinBox_p_mutation->value();
     controllerUi.settings.population_size = ui->spinBox_user_count_population->value();
-    //check
 
+
+    if(controllerUi.settings.count_crossover!=1 && controllerUi.settings.count_crossover!=2 ||
+            controllerUi.settings.probability > 1.0 && controllerUi.settings.probability<0.0 ||
+            controllerUi.settings.population_size <= 0
+    ){
+        QMessageBox::warning(this, "Внимание","Настройки не очень, но мы поправили");
+        controllerUi.settings.count_crossover = 1;
+        controllerUi.settings.probability = 1.0;
+        controllerUi.settings.population_size = 10;
+    }
 
     QString str = "Your data: cross_dot = " + QString::number(controllerUi.settings.count_crossover)
                   + ", population_size = " + QString::number(controllerUi.settings.population_size)
@@ -143,6 +162,10 @@ void MainWindow::onStartClicked() {
 
     if(ui_slave!= nullptr){
         delete ui_slave;
+    }
+    if(controllerUi.getGraph().size()==0){
+        QMessageBox::warning(this, "Внимание","Граф не задан");
+        return;
     }
     ui_slave = new Algorithm(controllerUi.getGraph(),
                              controllerUi.settings.population_size);
@@ -190,11 +213,12 @@ void MainWindow::drawGraph()
     if(!list_point)
         delete list_point;
 
+
+
     scene->clear();
 
     QBrush greenBrush(Qt::green);
     QBrush blueBrush(Qt::blue);
-
 
 
 
@@ -204,6 +228,14 @@ void MainWindow::drawGraph()
     unsigned main_radius = 120;
 
 
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            std::cout << controllerUi.getGraph()[i][j] << " ";
+        }
+        std::cout << "\n";
+    }
 
     for (int i = 0; i < n; i++)
     {
@@ -221,19 +253,12 @@ void MainWindow::drawGraph()
             {
                 scene->addLine(list_point[i].x + CONST_SHIFT_LINE,list_point[i].y + CONST_SHIFT_LINE,
                                list_point[j].x + CONST_SHIFT_LINE,list_point[j].y + CONST_SHIFT_LINE);
+
             }
         }
     }
 
 
-//    for(int i = 0; i < n; i++){
-//        scene -> addEllipse(list_point[i].x,list_point[i].y ,point_radius, point_radius,
-//                            outlinePen, Qt::white);
-//        text = scene ->addText(QString::number(i));
-//        text->setPos(list_point[i].x + CONST_SHIFT_TEXT,list_point[i].y + CONST_SHIFT_TEXT);
-//    }
-
-    //rectangle = scene->addRect(100, 0, 80, 100, outlinePen, blueBrush);
     drawPoints(n);
 
 }
@@ -244,7 +269,7 @@ void MainWindow::drawPoints(int n)
     QPen outlinePen(Qt::black);
     outlinePen.setWidth(2);
 
-    for(int i = 0; i < controllerUi.getGraph().size(); i++)
+    for(int i = 0; i < n; i++)
     {
         scene -> addEllipse(list_point[i].x,list_point[i].y ,point_radius, point_radius,
                             outlinePen, Qt::white);
@@ -276,17 +301,31 @@ void MainWindow::drawIndividual()
     {
         for (int i = 0; i < n-1; i++)
         {
-            int first_element = ui_slave->getCurrentPopulation().getBestIndividual().first[i];
-            int second_element = ui_slave->getCurrentPopulation().getBestIndividual().first[i+1];
-//            std::cout<<list_point[first_element].x<<" "<<list_point[first_element].y<<"\n";
-//            std::cout<<list_point[second_element].x<<" "<<list_point[second_element].y<<"\n";
+            int first_element = ui_slave -> getCurrentPopulation().getBestIndividual().first[i];
+            int second_element = ui_slave -> getCurrentPopulation().getBestIndividual().first[i+1];
 
-
-
-            scene->addLine(list_point[first_element].x + CONST_SHIFT_LINE,list_point[first_element].y + CONST_SHIFT_LINE,
-                           list_point[second_element].x + CONST_SHIFT_LINE,list_point[second_element].y + CONST_SHIFT_LINE,
+            scene->addLine(list_point[first_element].x + CONST_SHIFT_LINE,
+                           list_point[first_element].y + CONST_SHIFT_LINE,
+                           list_point[second_element].x + CONST_SHIFT_LINE,
+                           list_point[second_element].y + CONST_SHIFT_LINE,
                            outlinePen);
+            scene->addText(QString::number(controllerUi.getGraph()[first_element][second_element]))
+            ->setPos((list_point[first_element].x+list_point[second_element].x)/2 ,
+                     (list_point[first_element].y+list_point[second_element].y)/2 );
         }
+
+        int start_element = ui_slave -> getCurrentPopulation().getBestIndividual().first[0];
+        int end_element = ui_slave -> getCurrentPopulation().getBestIndividual().first[n-1];
+
+        scene->addLine(list_point[start_element].x + CONST_SHIFT_LINE,
+                       list_point[start_element].y + CONST_SHIFT_LINE,
+                       list_point[end_element].x + CONST_SHIFT_LINE,
+                       list_point[end_element].y + CONST_SHIFT_LINE,
+                       outlinePen);
+        scene->addText(QString::number(controllerUi.getGraph()[start_element][end_element]))
+                ->setPos((list_point[start_element].x+list_point[end_element].x)/2 ,
+                         (list_point[start_element].y+list_point[end_element].y)/2 );
+
     } else
     {
 
@@ -342,7 +381,7 @@ void MainWindow::chooseWhatToDraw()
         drawPopulation();
     } else
     {
-        //error message
+        QMessageBox::warning(this, "Внимание","Вы не выбрали что выводить");
     }
 
 }
