@@ -15,6 +15,7 @@ public:
     const std::vector<long> &getFitnessValues() const;
     const std::vector<chromosome_t> &getIndividuals() const;
     std::pair<const chromosome_t &, int> getBestIndividual() const;
+    std::pair<const chromosome_t &, int> getWorstIndividual() const;
     const chromosome_t &operator[](unsigned int index) const;
     std::size_t size() const;
 
@@ -22,6 +23,7 @@ private:
     std::vector<chromosome_t> individuals;
     std::vector<long> fitness_values;
     int best_individual_index;
+    int worst_individual_index;
 
 };
 

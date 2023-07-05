@@ -10,7 +10,8 @@ Population::Population(const std::vector<chromosome_t> &individuals, const graph
     fitness_values.reserve(individuals.size());
 
     best_individual_index = 0;
-    
+    worst_individual_index = 0;
+
     for (auto &item: this->individuals)
     {
         long sum = 0;
@@ -26,6 +27,10 @@ Population::Population(const std::vector<chromosome_t> &individuals, const graph
         if (fitness_values.back() < fitness_values[best_individual_index])
         {
             best_individual_index = fitness_values.size() - 1;
+        }
+        if (fitness_values.back() > fitness_values[worst_individual_index])
+        {
+            worst_individual_index = fitness_values.size() - 1;
         }
     }
 }
@@ -52,6 +57,14 @@ const std::vector<chromosome_t> &Population::getIndividuals() const
 std::pair<const chromosome_t &, int> Population::getBestIndividual() const
 {
     return {individuals[best_individual_index], fitness_values[best_individual_index]};
+}
+
+/*
+ * Returns chromosome and fitness function value of individual with the largest fitness value in population
+ */
+std::pair<const chromosome_t &, int> Population::getWorstIndividual() const
+{
+    return {individuals[worst_individual_index], fitness_values[worst_individual_index]};
 }
 
 /*
