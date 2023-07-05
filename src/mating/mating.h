@@ -7,7 +7,7 @@
 class Mating
 {
 public:
-    Mating(int chromosome_size, double mutation_probability);
+    Mating(int chromosome_size, double mutation_probability, int amount_of_crossover_dots);
     std::vector<chromosome_t> getChildPopulation(const Population &population);
 
 private:
