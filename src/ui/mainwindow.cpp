@@ -42,6 +42,7 @@ void MainWindow::onPushButtonAddEdgeClicked()
             std::pair(ui->spinBox_distance_between_cities->value(),
                       std::pair(ui->spinBox_departure_city->value(), ui->spinBox_arrival_city->value()));
 
+
     list_edge.push_back(element);
     QString added_line = QString::number(ui->spinBox_departure_city->value()) + " -> "
                          + QString::number(ui->spinBox_arrival_city->value()) + ": weight = "
@@ -128,7 +129,7 @@ void MainWindow::onGraphGenerateFile()
 }
 
 void MainWindow::radioButtonClicked() {
-    if(ui_slave == nullptr)//+error mes
+    if(ui_slave == nullptr)//nothing to draw
         return;
     chooseWhatToDraw();
 }
