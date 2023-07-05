@@ -19,12 +19,9 @@ private:
     void mutation(chromosome_t &chromosome, int mutation_rate);
     void mutationSwitch(chromosome_t &chromosome, int mutation_rate);
 
-    void modifyOrder(chromosome_t &chromosome);
-
     int chromosome_size;
     int amount_of_crossover_dots;
     double mutation_probability;
-
 };
 
 #endif //TSP_GA_MATING_H

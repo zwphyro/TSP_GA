@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include "NewGenerationSelection.h"
-#include "../randomizer/Randomizer.h"
 
 /*
  * Method that selects the best individuals from ancestral and descendant populations
@@ -37,20 +36,13 @@ NewGenerationSelection::createNewGeneration(const Population &ancestors, const P
     int next_index = 1;
     while (new_population.size() < ancestors.size())
     {
-        if (new_population.back() != all_individuals[next_index].first &&
-            all_individuals[previous_added_index].second != all_individuals[next_index].second)
+        if (all_individuals[previous_added_index].second != all_individuals[next_index].second)
         {
             new_population.emplace_back(all_individuals[next_index].first);
             previous_added_index = next_index;
         }
         next_index++;
     }
-
-//    for (int i = 0; i < ancestors.size() / 2 + ancestors.size() % 2; i++)
-//    {
-//        Randomizer randomizer;
-//        new_population.emplace_back(all_individuals[randomizer.getRandomInt(next_index, ancestors.size() - 1)].first);
-//    }
 
     return new_population;
 }

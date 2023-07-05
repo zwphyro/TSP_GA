@@ -81,7 +81,6 @@ void Mating::mutation(chromosome_t &chromosome, int mutation_rate)
 
         std::swap(chromosome[position_1], chromosome[position_2]);
     }
-    modifyOrder(chromosome);
 }
 
 void Mating::mutationSwitch(chromosome_t &chromosome, int mutation_rate)
@@ -95,7 +94,6 @@ void Mating::mutationSwitch(chromosome_t &chromosome, int mutation_rate)
 
         std::reverse(chromosome.begin() + position_1, chromosome.begin() + position_2 + 1);
     }
-    modifyOrder(chromosome);
 }
 
 std::vector<chromosome_t> Mating::getChildren(const Population &population)
@@ -140,19 +138,4 @@ std::vector<chromosome_t> Mating::getMutated(const Population &population)
     }
 
     return mutated_individuals;
-}
-
-void Mating::modifyOrder(chromosome_t &chromosome)
-{
-    int zero_index = 0;
-    for (int i = 0; i < chromosome_size; i++)
-    {
-        if (chromosome[i] == 0)
-        {
-            zero_index = i;
-            break;
-        }
-    }
-    chromosome.insert(chromosome.end(), chromosome.begin(), chromosome.begin() + zero_index);
-    chromosome.erase(chromosome.begin(), chromosome.begin() + zero_index);
 }
