@@ -67,14 +67,17 @@ int Algorithm::switchToNextPopulation()
         current_population++;
         return 0;
     }
-    
+
     if (end_detector)
     {
         return 1;
     }
 
     Mating mater(graph.size(), amount_of_crossover_dots, mutation_probability);
-    Population children_population(mater.getChildren(*current_population), graph);
+    std::vector<chromosome_t> children_individuals = mater.getChildren(*current_population);
+    std::vector<chromosome_t> mutated_individuals = mater.getMutated(*current_population);
+    children_individuals.insert(children_individuals.end(), mutated_individuals.begin(), mutated_individuals.end());
+    Population children_population(children_individuals, graph);
 
     NewGenerationSelection new_generation_selector;
     auto new_individuals = new_generation_selector.createNewGeneration(*current_population, children_population);
