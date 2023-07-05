@@ -4,7 +4,7 @@
 
 #include "ControllerUI.h"
 
-const graph_t &ControllerUI::initFile(std::string sourceFile) {
+void ControllerUI::initFile(std::string sourceFile) {
 
 
     std::string sep = " ";
@@ -70,10 +70,10 @@ const graph_t &ControllerUI::initFile(std::string sourceFile) {
         std::cout<<"\n";
     }
 
-    return graph;
+
 }
 
-const graph_t &ControllerUI::initAdd(std::vector<std::pair<int,std::pair<int,int>>> list_edge, int n) {
+void ControllerUI::initAdd(std::vector<std::pair<int,std::pair<int,int>>> list_edge, int n) {
 
     initMax(n);
     for(int i = 0; i < list_edge.size(); i++){
@@ -89,10 +89,10 @@ const graph_t &ControllerUI::initAdd(std::vector<std::pair<int,std::pair<int,int
         std::cout<<"\n";
     }
 
-    return graph;
+
 }
 
-const graph_t &ControllerUI::initRandom(int n) {
+void ControllerUI::initRandom(int n) {
 
 
     if(n == 0){
@@ -120,7 +120,7 @@ const graph_t &ControllerUI::initRandom(int n) {
         std::cout<<"\n";
     }
 
-    return graph;
+
 }
 
 void ControllerUI::initMax(int n) {
@@ -130,6 +130,6 @@ void ControllerUI::initMax(int n) {
     }
 }
 
-void ControllerUI::check() {
-    std::cout<<"checked"<<settings.population_size;
+const graph_t & ControllerUI::getGraph()  {
+    return graph;
 }
