@@ -73,33 +73,8 @@ int Algorithm::switchToNextPopulation()
         return 1;
     }
 
-    // put this part in a separate method of the Mating class
-    RouletteWheelSelection selector(*current_population);
-    std::vector<chromosome_t> children;
-    children.reserve(population_size);
-
-    Mating mater;
-    int crossover_start = 0;
-    int crossover_end;
-
-    Randomizer randomizer;
-
-    for (int i = 0; i < population_size; i++)
-    {
-        crossover_end = randomizer.getRandomInt(0, graph.size() - 1);
-        if (amount_of_crossover_dots == 2)
-        {
-            crossover_start = randomizer.getRandomInt(0, graph.size() - 1);
-            if (crossover_start > crossover_end) std::swap(crossover_start, crossover_end);
-        }
-
-        auto &first_parent = selector.getIndividual();
-        auto &second_parent = selector.getIndividual();
-        children.emplace_back(mater.ordered_crossover(first_parent, second_parent, crossover_start, crossover_end));
-        children.back() = mater.mutation(children.back(), (int) (mutation_probability * graph.size()));
-    }
-    Population children_population(children, graph);
-    // end
+    Mating mater(graph.size(), amount_of_crossover_dots, mutation_probability);
+    Population children_population(mater.getChildren(*current_population), graph);
 
     NewGenerationSelection new_generation_selector;
     auto new_individuals = new_generation_selector.createNewGeneration(*current_population, children_population);

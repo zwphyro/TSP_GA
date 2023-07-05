@@ -18,18 +18,17 @@
 class ControllerUI
 {
 public:
-    graph_t graph;
     Settings settings;
 
     //ControllerUI();
 
-    const graph_t &initFile(std::string sourceFile);
-    const graph_t &initAdd(std::vector<std::pair<int, std::pair<int, int>>> list_edge, int n);
-    const graph_t &initRandom(int n = 0);
-
-    void check();
+    void initFile(std::string sourceFile);
+    void initAdd(std::vector<std::pair<int, std::pair<int, int>>> list_edge, int n);
+    void initRandom(int n = 0);
+    const graph_t & getGraph();
 private:
     void initMax(int n);
+    graph_t graph;
 };
 
 #endif //TSP_GA_CONTROLLERUI_H
