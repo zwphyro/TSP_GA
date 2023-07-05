@@ -152,8 +152,8 @@ void MainWindow::onStartClicked() {
 
 void MainWindow::onNextClicked() {
     std::cout<<"next\n";
-    if(ui_slave){
-        //check;
+    if(ui_slave != nullptr){
+
         if(ui_slave->switchToNextPopulation() == 0){
             chooseWhatToDraw();
         }
@@ -257,7 +257,9 @@ void MainWindow::drawPoints(int n)
 void MainWindow::drawIndividual() 
 {
     scene->clear();
-    scene->update();
+    if(!ui_slave)
+        return;
+    //scene->update();
 
 
     int n = controllerUi.getGraph().size();
@@ -272,10 +274,15 @@ void MainWindow::drawIndividual()
 
     if (ui->radioButton_best_individual->isChecked())
     {
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n-1; i++)
         {
             int first_element = ui_slave->getCurrentPopulation().getBestIndividual().first[i];
             int second_element = ui_slave->getCurrentPopulation().getBestIndividual().first[i+1];
+//            std::cout<<list_point[first_element].x<<" "<<list_point[first_element].y<<"\n";
+//            std::cout<<list_point[second_element].x<<" "<<list_point[second_element].y<<"\n";
+
+
+
             scene->addLine(list_point[first_element].x + CONST_SHIFT_LINE,list_point[first_element].y + CONST_SHIFT_LINE,
                            list_point[second_element].x + CONST_SHIFT_LINE,list_point[second_element].y + CONST_SHIFT_LINE,
                            outlinePen);
@@ -294,6 +301,8 @@ void MainWindow::drawPopulation()
 {
     scene->clear();
 
+    if(!ui_slave)
+        return;
     int N = ui_slave->getCurrentPopulation().getIndividuals().size();
 
     for (int i = 0; i < N; i++){
@@ -321,12 +330,15 @@ void MainWindow::chooseWhatToDraw()
 
     if (ui->radioButton_best_individual->isChecked())
     {
+        std::cout<<"choosen best\n";
             drawIndividual();
     } else if (ui->radioButton_worst_individual->isChecked())
     {
+        std::cout<<"choosen worst\n";
             drawIndividual();
     } else if (ui->radioButton_full_population->isChecked())
     {
+        std::cout<<"choosen full\n";
         drawPopulation();
     } else
     {
