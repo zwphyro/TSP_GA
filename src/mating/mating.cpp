@@ -85,7 +85,7 @@ chromosome_t Mating::mutation(chromosome_t &chromosome, int mutation_rate)
     return chromosome;
 }
 
-chromosome_t Mating::mutation_switch(chromosome_t &chromosome, int mutation_rate)
+chromosome_t Mating::mutationSwitch(chromosome_t &chromosome, int mutation_rate)
 {
     Randomizer randomizer;
 
@@ -127,4 +127,19 @@ std::vector<chromosome_t> Mating::getChildren(const Population &population)
     }
 
     return children;
+}
+
+std::vector<chromosome_t> Mating::getMutated(const Population &population)
+{
+    RouletteWheelSelection selector(population);
+    std::vector<chromosome_t> mutated_individuals;
+    mutated_individuals.reserve(chromosome_size);
+
+    for (int i = 0; i < chromosome_size; i++)
+    {
+        mutated_individuals.emplace_back(selector.getIndividual());
+        mutationSwitch(mutated_individuals.back(), 1);
+    }
+
+    return mutated_individuals;
 }

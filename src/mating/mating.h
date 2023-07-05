@@ -9,6 +9,7 @@ class Mating
 public:
     Mating(int chromosome_size, int amount_of_crossover_dots, double mutation_probability);
     std::vector<chromosome_t> getChildren(const Population &population);
+    std::vector<chromosome_t> getMutated(const Population &population);
 
 private:
     chromosome_t
@@ -16,7 +17,7 @@ private:
                       int crossover_end);
 
     chromosome_t mutation(chromosome_t &chromosome, int mutation_rate);
-    chromosome_t mutation_switch(chromosome_t &chromosome, int mutation_rate);
+    chromosome_t mutationSwitch(chromosome_t &chromosome, int mutation_rate);
 
     int chromosome_size;
     int amount_of_crossover_dots;
