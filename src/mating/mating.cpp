@@ -57,7 +57,8 @@ Mating::ordered_crossover(const chromosome_t &first_parent, const chromosome_t &
         {
             Randomizer randomizer;
 
-            int random_multiple_instance_index = randomizer.getRandomInt(0, (int) map[mult_instances[i]].size() - 1);
+            int random_multiple_instance_index = randomizer.getRandomInt(0,
+                                                                         (int) map[multiple_instance_gen].size() - 1);
             int random_zero_instance_gen = randomizer.getRandomInt(0, (int) zero_instances.size() - 1);
 
             offspring[map[multiple_instance_gen][random_multiple_instance_index]] = zero_instances[random_zero_instance_gen];
@@ -108,16 +109,14 @@ std::vector<chromosome_t> Mating::getChildren(const Population &population)
     int crossover_start = 0;
     int crossover_end;
 
-    std::random_device random_device;
-    std::mt19937 generator(random_device());
-    std::uniform_int_distribution<int> distribution(0, chromosome_size - 1);
+    Randomizer randomizer;
 
     for (int i = 0; i < population.size(); i++)
     {
-        crossover_end = distribution(generator);
+        crossover_end = randomizer.getRandomInt(0, chromosome_size - 1);
         if (amount_of_crossover_dots == 2)
         {
-            crossover_start = distribution(generator);
+            crossover_start = randomizer.getRandomInt(0, chromosome_size - 1);
             if (crossover_start > crossover_end) std::swap(crossover_start, crossover_end);
         }
 
