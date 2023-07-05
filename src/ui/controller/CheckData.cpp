@@ -4,7 +4,8 @@
 
 #include "CheckData.h"
 
-bool CheckData::checkGraph(graph_t &graph) {
+bool CheckData::checkGraph(graph_t &graph)
+{
 
     if(graph.size() == 0)
         return false;
