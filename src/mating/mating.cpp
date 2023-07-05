@@ -75,8 +75,8 @@ chromosome_t Mating::mutation(chromosome_t &chromosome, int mutation_rate)
 
     for (int i = 0; i < mutation_rate; i++)
     {
-        int position_1 = randomizer.getRandomInt(0, possible_positions.size() - 1);
-        int position_2 = randomizer.getRandomInt(0, possible_positions.size() - 1);
+        int position_1 = randomizer.getRandomInt(0, chromosome_size - 1);
+        int position_2 = randomizer.getRandomInt(0, chromosome_size - 1);
 
         std::swap(chromosome[position_1], chromosome[position_2]);
     }
@@ -90,8 +90,8 @@ chromosome_t Mating::mutation_switch(chromosome_t &chromosome, int mutation_rate
 
     for (int i = 0; i < mutation_rate; i++)
     {
-        int position_1 = randomizer.getRandomInt(0, possible_positions.size() - 1);
-        int position_2 = randomizer.getRandomInt(0, possible_positions.size() - 1);
+        int position_1 = randomizer.getRandomInt(0, chromosome_size - 1);
+        int position_2 = randomizer.getRandomInt(0, chromosome_size - 1);
 
         std::reverse(chromosome.begin() + position_1, chromosome.begin() + position_2 + 1);
     }
