@@ -9,6 +9,7 @@
 #include "../algorithm/Algorithm.h"
 #include "./controller/ControllerUI.h"
 #include <math.h>
+#include <QMessageBox>
 //#include "PaintWidget.h"
 
 #include <QGraphicsScene>

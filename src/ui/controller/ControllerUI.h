@@ -14,17 +14,17 @@
 #include <fstream>
 #include <string>
 #include <climits>
-
+#include "CheckData.h"
 class ControllerUI
 {
 public:
     Settings settings;
-
+    CheckData check;
     //ControllerUI();
 
-    void initFile(std::string sourceFile);
-    void initAdd(std::vector<std::pair<int, std::pair<int, int>>> list_edge, int n);
-    void initRandom(int n = 0);
+    bool initFile(std::string sourceFile);
+    bool initAdd(std::vector<std::pair<int, std::pair<int, int>>> list_edge, int n);
+    bool initRandom(int n = 0);
     const graph_t & getGraph();
 private:
     void initMax(int n);
