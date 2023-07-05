@@ -3,13 +3,13 @@
 
 #include "../data-structures/Chromosome.h"
 
-class Mating {
+class Mating
+{
 public:
     chromosome_t ordered_crossover(const chromosome_t &parent_1, const chromosome_t &parent_2, int crossover_start,
                                    int crossover_end);
 
     chromosome_t mutation(const chromosome_t &chromosome, int mutation_rate);
 };
-
 
 #endif //TSP_GA_MATING_H

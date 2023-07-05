@@ -32,5 +32,4 @@ private:
     void initMax(int n);
 };
 
-
 #endif //TSP_GA_CONTROLLERUI_H

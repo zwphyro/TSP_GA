@@ -7,7 +7,8 @@
 #include "../parents-selection/RouletteWheelSelection.h"
 #include "../new-generation-selection/NewGenerationSelection.h"
 #include <random>
-#include<iostream>
+#include "../randomizer/Randomizer.h"
+
 
 /*
  * Constructor of the algorithm class, initializes the proles and creates the first population
@@ -66,7 +67,7 @@ int Algorithm::switchToNextPopulation()
         current_population++;
         return 0;
     }
-
+    
     if (end_detector)
     {
         return 1;
@@ -81,16 +82,14 @@ int Algorithm::switchToNextPopulation()
     int crossover_start = 0;
     int crossover_end;
 
-    std::random_device random_device;
-    std::mt19937 generator(random_device());
-    std::uniform_int_distribution<int> distribution(0, graph.size() - 1);
+    Randomizer randomizer;
 
     for (int i = 0; i < population_size; i++)
     {
-        crossover_end = distribution(generator);
+        crossover_end = randomizer.getRandomInt(0, graph.size() - 1);
         if (amount_of_crossover_dots == 2)
         {
-            crossover_start = distribution(generator);
+            crossover_start = randomizer.getRandomInt(0, graph.size() - 1);
             if (crossover_start > crossover_end) std::swap(crossover_start, crossover_end);
         }
 
@@ -135,5 +134,5 @@ int Algorithm::switchToPreviousPopulation()
  */
 void Algorithm::switchToLastPopulation()
 {
-  
+
 }

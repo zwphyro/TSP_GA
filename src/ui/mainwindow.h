@@ -20,12 +20,16 @@
 
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui
+{
+    class MainWindow;
+}
 QT_END_NAMESPACE
 
 
 
-struct Point{
+struct Point
+{
     int x;
     int y;
 };
@@ -52,14 +56,12 @@ private slots:
     void onStartClicked();
 
 
-
-
 private:
     Ui::MainWindow *ui;
-    std::vector<std::pair<int,std::pair<int,int>>> list_edge;
+    std::vector<std::pair<int, std::pair<int, int>>> list_edge;
     std::vector<std::vector<int>> graph_t;
     QVBoxLayout *layout;
-    Algorithm* ui_slave = nullptr;
+    Algorithm *ui_slave = nullptr;
     ControllerUI controllerUi;
 //    PaintWidget* paint;
 
@@ -76,4 +78,5 @@ private:
 
 
 };
+
 #endif // MAINWINDOW_H

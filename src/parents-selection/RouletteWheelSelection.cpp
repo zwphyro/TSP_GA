@@ -1,6 +1,5 @@
-#include <random>
-#include <iostream>
 #include "RouletteWheelSelection.h"
+#include "../randomizer/Randomizer.h"
 
 RouletteWheelSelection::RouletteWheelSelection(const Population &population) : population(population)
 {
@@ -21,11 +20,8 @@ RouletteWheelSelection::RouletteWheelSelection(const Population &population) : p
 
 const chromosome_t &RouletteWheelSelection::getIndividual()
 {
-    std::random_device random_device;
-    std::mt19937 generator(random_device());
-    std::uniform_real_distribution<> distribution(0., 1.);
-
-    double random_number = distribution(generator);
+    Randomizer randomizer;
+    double random_number = randomizer.getRandomDouble(0., 1.);
 
     int left_bound = -1;
     int right_bound = population.size();
