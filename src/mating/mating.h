@@ -16,8 +16,10 @@ private:
     ordered_crossover(const chromosome_t &first_parent, const chromosome_t &second_parent, int crossover_start,
                       int crossover_end);
 
-    chromosome_t mutation(chromosome_t &chromosome, int mutation_rate);
-    chromosome_t mutationSwitch(chromosome_t &chromosome, int mutation_rate);
+    void mutation(chromosome_t &chromosome, int mutation_rate);
+    void mutationSwitch(chromosome_t &chromosome, int mutation_rate);
+
+    void modifyOrder(chromosome_t &chromosome);
 
     int chromosome_size;
     int amount_of_crossover_dots;

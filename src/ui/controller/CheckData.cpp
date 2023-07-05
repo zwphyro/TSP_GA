@@ -3,10 +3,12 @@
 //
 
 #include "CheckData.h"
+#include <climits>
 
-bool CheckData::checkGraph(graph_t &graph) {
+bool CheckData::checkGraph(graph_t &graph)
+{
 
-    if(graph.size() == 0)
+    if (graph.size() == 0)
         return false;
 
     bool check = true;
@@ -15,14 +17,14 @@ bool CheckData::checkGraph(graph_t &graph) {
     {
         for (int j = 0; j < graph.size(); j++)
         {
-            if(i == j && graph[i][j] != INT_MAX)
+            if (i == j && graph[i][j] != INT_MAX)
             {
                 check = false;
                 graph[i][j] = INT_MAX;
-            }
-            else
+            } else
             {
-                if(graph[i][j] != graph[j][i]){
+                if (graph[i][j] != graph[j][i])
+                {
                     graph[j][i] = graph[i][j];
                     check = false;
                 }

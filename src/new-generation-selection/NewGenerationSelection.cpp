@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "NewGenerationSelection.h"
+#include "../randomizer/Randomizer.h"
 
 /*
  * Method that selects the best individuals from ancestral and descendant populations
@@ -32,15 +33,24 @@ NewGenerationSelection::createNewGeneration(const Population &ancestors, const P
     std::vector<chromosome_t> new_population;
     new_population.reserve(ancestors.size());
     new_population.emplace_back(all_individuals[0].first);
-    int i = 1;
+    int previous_added_index = 0;
+    int next_index = 1;
     while (new_population.size() < ancestors.size())
     {
-        if (new_population.back() != all_individuals[i].first)
+        if (new_population.back() != all_individuals[next_index].first &&
+            all_individuals[previous_added_index].second != all_individuals[next_index].second)
         {
-            new_population.emplace_back(all_individuals[i].first);
+            new_population.emplace_back(all_individuals[next_index].first);
+            previous_added_index = next_index;
         }
-        i++;
+        next_index++;
     }
+
+//    for (int i = 0; i < ancestors.size() / 2 + ancestors.size() % 2; i++)
+//    {
+//        Randomizer randomizer;
+//        new_population.emplace_back(all_individuals[randomizer.getRandomInt(next_index, ancestors.size() - 1)].first);
+//    }
 
     return new_population;
 }
