@@ -50,13 +50,16 @@ Mating::ordered_crossover(const chromosome_t &first_parent, const chromosome_t &
     std::vector<int> zero_instances;
     std::vector<int> multiple_instances;
 
+    // Identify zero instances and multiple instances of genes in the offspring
     for (auto &item: map)
     {
         if (item.second.empty())
         {
+            // If a gene has no instances in the offspring, add it to zero_instances
             zero_instances.push_back(item.first);
         } else if (item.second.size() > 1)
         {
+            // If a gene has multiple instances in the offspring, add it to multiple_instances
             multiple_instances.push_back(item.first);
         }
     }
@@ -64,18 +67,24 @@ Mating::ordered_crossover(const chromosome_t &first_parent, const chromosome_t &
     // Resolve multiple instances by randomly assigning zero instances to them
     for (int multiple_instance_gen: multiple_instances)
     {
+        // Resolve multiple instances of a gene by randomly assigning zero instances to them
         while (map[multiple_instance_gen].size() > 1)
         {
             Randomizer randomizer;
 
+            // Randomly select a multiple instance index and a zero instance index
             int random_multiple_instance_index = randomizer.getRandomInt(0,
                                                                          (int) map[multiple_instance_gen].size() - 1);
             int random_zero_instance_gen = randomizer.getRandomInt(0, (int) zero_instances.size() - 1);
 
+            // Assign a zero instance to the randomly selected multiple instance
             offspring[map[multiple_instance_gen][random_multiple_instance_index]] = zero_instances[random_zero_instance_gen];
+
+            // Remove the assigned multiple instance and zero instance from their respective lists
             map[multiple_instance_gen].erase(map[multiple_instance_gen].begin() + random_multiple_instance_index);
             zero_instances.erase(zero_instances.begin() + random_zero_instance_gen);
         }
+
     }
 
     return offspring;
@@ -89,14 +98,20 @@ void Mating::mutation(chromosome_t &chromosome, int mutation_rate)
 {
     Randomizer randomizer;
 
+    // Perform mutation on a chromosome by swapping genes randomly
     for (int i = 0; i < mutation_rate; i++)
     {
+        // Select two random positions in the chromosome
         int position_1 = randomizer.getRandomInt(0, chromosome_size - 1);
         int position_2 = randomizer.getRandomInt(0, chromosome_size - 1);
 
+        // Swap the genes at the selected positions
         std::swap(chromosome[position_1], chromosome[position_2]);
     }
+
+// Modify the order of the chromosome after mutation
     modifyOrder(chromosome);
+
 }
 
 
@@ -107,13 +122,18 @@ void Mating::mutationSwitch(chromosome_t &chromosome, int mutation_rate)
 {
     Randomizer randomizer;
 
+    // Perform mutation 'mutation_rate' times
     for (int i = 0; i < mutation_rate; i++)
     {
+        // Select two random positions within the chromosome
         int position_1 = randomizer.getRandomInt(0, chromosome_size - 1);
         int position_2 = randomizer.getRandomInt(0, chromosome_size - 1);
 
+        // Reverse the segment of genes between position_1 and position_2 (inclusive)
         std::reverse(chromosome.begin() + position_1, chromosome.begin() + position_2 + 1);
     }
+
+    // Modify the order of the chromosome by moving the '0' gene to the beginning
     modifyOrder(chromosome);
 }
 
@@ -132,20 +152,29 @@ std::vector<chromosome_t> Mating::getChildren(const Population &population)
 
     Randomizer randomizer;
 
+    // Generate children by performing crossover and mutation on selected parents
     for (int i = 0; i < population.size(); i++)
     {
         crossover_end = randomizer.getRandomInt(0, chromosome_size - 1);
+
+        // If using two crossover points, determine the start point randomly
         if (amount_of_crossover_dots == 2)
         {
             crossover_start = randomizer.getRandomInt(0, chromosome_size - 1);
             if (crossover_start > crossover_end) std::swap(crossover_start, crossover_end);
         }
 
+        // Select two parents using the Roulette Wheel Selection method
         auto &first_parent = selector.getIndividual();
         auto &second_parent = selector.getIndividual();
+
+        // Perform ordered crossover to generate a child
         children.emplace_back(ordered_crossover(first_parent, second_parent, crossover_start, crossover_end));
+
+        // Apply mutation to the child
         mutation(children.back(), (int) (mutation_probability * chromosome_size));
     }
+
 
     return children;
 }
@@ -162,6 +191,7 @@ std::vector<chromosome_t> Mating::getMutated(const Population &population)
 
     for (int i = 0; i < chromosome_size; i++)
     {
+        // Generate mutated individuals by performing a single mutation on each chromosome
         mutated_individuals.emplace_back(selector.getIndividual());
         mutationSwitch(mutated_individuals.back(), 1);
     }
@@ -171,10 +201,12 @@ std::vector<chromosome_t> Mating::getMutated(const Population &population)
 
 
 /*
-Modify the order of the chromosome by moving the '0' gene to the beginning
+Modify the order of the chromosome by moving the '0' gene to the beginning.
+This function finds the index of the '0' gene in the chromosome and rearranges the genes accordingly.
 */
 void Mating::modifyOrder(chromosome_t &chromosome)
 {
+    // Find the index of the '0' gene in the chromosome
     int zero_index = 0;
     for (int i = 0; i < chromosome_size; i++)
     {
@@ -184,6 +216,10 @@ void Mating::modifyOrder(chromosome_t &chromosome)
             break;
         }
     }
+
+    // Move the genes before the '0' gene to the end of the chromosome
     chromosome.insert(chromosome.end(), chromosome.begin(), chromosome.begin() + zero_index);
+
+    // Remove the genes before the '0' gene from the beginning of the chromosome
     chromosome.erase(chromosome.begin(), chromosome.begin() + zero_index);
 }
