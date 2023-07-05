@@ -31,9 +31,15 @@ NewGenerationSelection::createNewGeneration(const Population &ancestors, const P
 
     std::vector<chromosome_t> new_population;
     new_population.reserve(ancestors.size());
-    for (int i = 0; i < ancestors.size(); i++)
+    new_population.emplace_back(all_individuals[0].first);
+    int i = 1;
+    while (new_population.size() < ancestors.size())
     {
-        new_population.emplace_back(all_individuals[i].first);
+        if (new_population.back() != all_individuals[i].first)
+        {
+            new_population.emplace_back(all_individuals[i].first);
+        }
+        i++;
     }
 
     return new_population;
