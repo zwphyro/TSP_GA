@@ -19,6 +19,11 @@ MainWindow::MainWindow(QWidget *parent)
     initConnectBlockControl();
     initConnectTabAddVertex();
     initConnectTabRandom();
+    connect(ui->pushButton_save,SIGNAL(clicked()),this,SLOT(onSaveClicked()));
+    connect(ui->radioButton_full_population,SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
+    connect(ui->radioButton_best_individual,SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
+    connect(ui->radioButton_worst_individual,SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
+
 
     ui->scrollArea_list_of_edge->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     ui->scrollArea_list_of_edge->setWidgetResizable(true);
@@ -66,7 +71,6 @@ void MainWindow::initConnectTabAddVertex() {
     connect(ui->pushButton_add_edge,SIGNAL(clicked()),
             this,SLOT(onPushButtonAddEdgeClicked()));
 }
-
 void MainWindow::initConnectTabRandom() {
 
     connect(ui->pushButton_full_rnd,SIGNAL(clicked()),
@@ -75,57 +79,38 @@ void MainWindow::initConnectTabRandom() {
     connect(ui->pushButton_generate_rnd,SIGNAL(clicked()),
             this,SLOT(onGraphGenerateRandom()));
 }
-
 void MainWindow::initConnectBlockControl() {
     connect(ui->pushButton_skip,SIGNAL(clicked()),
-            this,SLOT(testSlot()));
+            this,SLOT(onSkipClicked()));
 
     connect(ui->pushButton_start,SIGNAL(clicked()),
             this,SLOT(onStartClicked()));
 
     connect(ui->pushButton_step_back,SIGNAL(clicked()),
-            this,SLOT(testSlot()));
+            this,SLOT(onPrevClicked()));
 
     connect(ui->pushButton_step_forward,SIGNAL(clicked()),
-            this,SLOT(testSlot()));
+            this,SLOT(onNextClicked()));
 }
 
 void MainWindow::onGraphGenerateAdd() {
-    if(ui_slave!= nullptr){
-        delete ui_slave;
-    }
-
-    ui_slave = new Algorithm(controllerUi.initAdd(list_edge,ui->spinBox_enter_city_add->value()),
-                             controllerUi.settings.population_size);
+    controllerUi.initAdd(list_edge,ui->spinBox_enter_city_add->value());
     drawGraph();
 }
 void MainWindow::onGraphGenerateRandom() {
-    if(ui_slave!= nullptr){
-        delete ui_slave;
-    }
-    ui_slave = new Algorithm(controllerUi.initRandom(ui->spinBox_enter_city_rnd->value()),
-                             controllerUi.settings.population_size);
-
+    controllerUi.initRandom(ui->spinBox_enter_city_rnd->value());
     drawGraph();
-
 }
 void MainWindow::onGraphGenerateFile() {
-
-    if(ui_slave!= nullptr){
-        delete ui_slave;
-    }
-
-    ui_slave = new Algorithm(controllerUi.initFile(ui->label_chosen_file->text().toStdString()),
-                             controllerUi.settings.population_size);
-
-
-
+    controllerUi.initFile(ui->label_chosen_file->text().toStdString());
     drawGraph();
 }
-void MainWindow::testSlot() {
-    std::cout<<"hohohohohoho"<<"\n";
-}
 
+void MainWindow::radioButtonClicked() {
+    if(ui_slave == nullptr)//+error mes
+        return;
+    chooseWhatToDraw();
+}
 
 void MainWindow::onSaveClicked() {
     controllerUi.settings.count_crossover = ui->spinBox_user_count_crossingover->value();
@@ -141,22 +126,70 @@ void MainWindow::onSaveClicked() {
 }
 
 
+void MainWindow::onStartClicked() {
+    std::cout<<"start\n";
+
+    if(ui_slave!= nullptr){
+        delete ui_slave;
+    }
+    ui_slave = new Algorithm(controllerUi.getGraph(),
+                             controllerUi.settings.population_size);
+
+    chooseWhatToDraw();
+}
+
+void MainWindow::onNextClicked() {
+    std::cout<<"next\n";
+    if(ui_slave){
+        //check;
+        if(ui_slave->switchToNextPopulation() == 0){
+            chooseWhatToDraw();
+        }
+    }
+
+
+}
+
+void MainWindow::onPrevClicked() {
+    std::cout<<"prev\n";
+    if(ui_slave){
+        //check;
+        if(ui_slave->switchToPreviousPopulation() == 0){
+            chooseWhatToDraw();
+        }
+    }
+
+}
+
+void MainWindow::onSkipClicked() {
+    std::cout<<"skip\n";
+
+    if(ui_slave){
+        //check;
+        ui_slave->switchToLastPopulation();
+    }
+    chooseWhatToDraw();
+}
+
 
 void MainWindow::drawGraph(){
+
+    if(!list_point)
+        delete list_point;
 
     scene->clear();
 
     QBrush greenBrush(Qt::green);
     QBrush blueBrush(Qt::blue);
-    QPen outlinePen(Qt::black);
-    outlinePen.setWidth(2);
 
 
-    unsigned n = ui_slave->graph.size();
-    Point *list_point = new Point[n];
+
+
+    unsigned n = controllerUi.getGraph().size();
+    list_point = new Point[n];
     double angle = 0;
     unsigned main_radius = 120;
-    unsigned point_radius = 40;
+
 
 
     for(int i = 0; i < n; i++){
@@ -168,25 +201,105 @@ void MainWindow::drawGraph(){
     for(int i = 0; i < n; i++){
         for(int j = i ; j < n; j++){
             //std::cout<<ui_slave->graph[i][j];
-            if(ui_slave->graph[i][j]!=0 && ui_slave->graph[i][j]!=INT_MAX){
+            if(controllerUi.getGraph()[i][j]!=0 && controllerUi.getGraph()[i][j]!=INT_MAX){
                 scene->addLine(list_point[i].x + CONST_SHIFT_LINE,list_point[i].y + CONST_SHIFT_LINE,
                                list_point[j].x + CONST_SHIFT_LINE,list_point[j].y + CONST_SHIFT_LINE);
             }
         }
     }
 
-    for(int i = 0; i < n; i++){
+//    for(int i = 0; i < n; i++){
+//        scene -> addEllipse(list_point[i].x,list_point[i].y ,point_radius, point_radius,
+//                            outlinePen, Qt::white);
+//        text = scene ->addText(QString::number(i));
+//        text->setPos(list_point[i].x + CONST_SHIFT_TEXT,list_point[i].y + CONST_SHIFT_TEXT);
+//    }
+
+    //rectangle = scene->addRect(100, 0, 80, 100, outlinePen, blueBrush);
+    drawPoints(n);
+
+}
+
+void MainWindow::drawPoints(int n) {
+    unsigned point_radius = 40;
+    QPen outlinePen(Qt::black);
+    outlinePen.setWidth(2);
+
+    for(int i = 0; i < controllerUi.getGraph().size(); i++){
         scene -> addEllipse(list_point[i].x,list_point[i].y ,point_radius, point_radius,
                             outlinePen, Qt::white);
         text = scene ->addText(QString::number(i));
         text->setPos(list_point[i].x + CONST_SHIFT_TEXT,list_point[i].y + CONST_SHIFT_TEXT);
     }
+}
 
-    //rectangle = scene->addRect(100, 0, 80, 100, outlinePen, blueBrush);
+
+void MainWindow::drawIndividual() {
+    scene->clear();
+    scene->update();
+
+
+    int n = controllerUi.getGraph().size();
+    if(!list_point){
+        //error mes
+        return;
+    }
+
+    QPen outlinePen(Qt::red);
+    outlinePen.setWidth(2);
+
+    if(ui->radioButton_best_individual->isChecked()){
+        for(int i = 0; i < n; i++){
+            int first_element = ui_slave->getCurrentPopulation().getBestIndividual().first[i];
+            int second_element = ui_slave->getCurrentPopulation().getBestIndividual().first[i+1];
+            scene->addLine(list_point[first_element].x + CONST_SHIFT_LINE,list_point[first_element].y + CONST_SHIFT_LINE,
+                           list_point[second_element].x + CONST_SHIFT_LINE,list_point[second_element].y + CONST_SHIFT_LINE,
+                           outlinePen);
+        }
+    }else{
+
+    }
+
+
+    drawPoints(n);
+
 
 }
 
-void MainWindow::onStartClicked() {
+void MainWindow::drawPopulation() {
+    scene->clear();
 
+    int N = ui_slave->getCurrentPopulation().getIndividuals().size();
+
+    for(int i = 0; i < N; i++){
+        QString str = QString::number(i+1)+") ";
+        for(int j = 0; j < controllerUi.getGraph().size(); j++){
+
+            str+=QString::number(ui_slave->getCurrentPopulation().getIndividuals()[i][j]);
+            if(j!=controllerUi.getGraph().size()-1)
+                str+=" -> ";
+            else
+                str+=": ";
+        }
+        str+=QString::number(ui_slave->getCurrentPopulation().getFitnessValues()[i]);
+        scene->addText(str)->setPos(-CONST_SCENE_WIDTH,30*i-CONST_SCENE_HEIGHT);
+
+    }
+
+}
+
+void MainWindow::chooseWhatToDraw() {
+
+    std::cout<<"choose draw type\n";
+
+    if(ui->radioButton_best_individual->isChecked()){
+            drawIndividual();
+    }else if(ui->radioButton_worst_individual->isChecked()){
+            drawIndividual();
+    }else if(ui->radioButton_full_population->isChecked()){
+        drawPopulation();
+    }else{
+        //error message
+    }
 
 }

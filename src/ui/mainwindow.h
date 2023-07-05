@@ -17,6 +17,8 @@
 
 #define CONST_SHIFT_LINE 20
 #define CONST_SHIFT_TEXT 10
+#define CONST_SCENE_WIDTH 230
+#define CONST_SCENE_HEIGHT 150
 
 
 QT_BEGIN_NAMESPACE
@@ -24,7 +26,9 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 
-
+/*
+ * struct to paint on GraphicsScene
+ * */
 struct Point{
     int x;
     int y;
@@ -46,10 +50,13 @@ private slots:
     void onGraphGenerateAdd();
     void onGraphGenerateFile();
     void onGraphGenerateRandom();
-    void testSlot();
+    void radioButtonClicked();
     void onSaveClicked();
 
     void onStartClicked();
+    void onNextClicked();
+    void onPrevClicked();
+    void onSkipClicked();
 
 
 
@@ -61,18 +68,20 @@ private:
     QVBoxLayout *layout;
     Algorithm* ui_slave = nullptr;
     ControllerUI controllerUi;
-//    PaintWidget* paint;
-
+    Point *list_point = nullptr;
     QGraphicsScene *scene;
-//    QGraphicsEllipseItem *ellipse;
-//    QGraphicsRectItem *rectangle;
     QGraphicsTextItem *text;
+
 
     void initConnectTabFile();
     void initConnectTabAddVertex();
     void initConnectTabRandom();
     void initConnectBlockControl();
     void drawGraph();
+    void drawIndividual();
+    void drawPopulation();
+    void chooseWhatToDraw();
+    void drawPoints(int n);
 
 
 };
