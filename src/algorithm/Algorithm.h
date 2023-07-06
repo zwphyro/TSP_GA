@@ -30,6 +30,7 @@ private:
     double mutation_probability;
     int amount_of_crossover_dots;
     int max_population_history_size;
+    int mutation_type;
 
     int equivalent_solutions_amount;
     bool end_detector;

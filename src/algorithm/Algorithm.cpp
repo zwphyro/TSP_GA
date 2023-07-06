@@ -17,6 +17,7 @@ Algorithm::Algorithm(const graph_t &graph, Settings settings) : graph(graph)
     mutation_probability = settings.probability;
     amount_of_crossover_dots = settings.count_crossover;
     max_population_history_size = 20;
+    mutation_type = settings.mutation;
 
     equivalent_solutions_amount = 0;
     end_detector = false;
@@ -111,8 +112,21 @@ void Algorithm::generateNextPopulation()
 {
     auto &last_population = populations_history.back();
     Mating mater(graph.size(), amount_of_crossover_dots, mutation_probability);
-    std::vector<chromosome_t> children_individuals = mater.getChildren(last_population);
+    std::vector<chromosome_t> children_individuals;
     std::vector<chromosome_t> mutated_individuals = mater.getMutated(last_population);
+    switch (mutation_type)
+    {
+        case 1:
+            children_individuals = mater.getChildren(last_population);
+            break;
+        case 2:
+            mutated_individuals = mater.getMutated(last_population);
+            break;
+        case 3:
+            children_individuals = mater.getChildren(last_population);
+            mutated_individuals = mater.getMutated(last_population);
+            break;
+    }
     children_individuals.insert(children_individuals.end(), mutated_individuals.begin(), mutated_individuals.end());
     Population children_population(children_individuals, graph);
 
