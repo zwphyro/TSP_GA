@@ -18,6 +18,12 @@
 Далее в файле `CMakeLists.txt` необходимо добавить строчку:  
 `set(Qt5_DIR "<путь до директории в которой находится Qt5>")`
 
+### Установка библиотеки QCustomPlot на Linux:
+
+Прописать в копандной строке:
+   `sudo apt-get install qcustomplot`
+    
+
 ## Сылка на отчет:
 
 https://docs.google.com/document/d/1FDKi4nCUjbyEB758uf7fs1w82_JF8-jv/edit?usp=share_link&ouid=107918932963085391831&rtpof=true&sd=true
