@@ -73,9 +73,35 @@ void MainWindow::onPushButtonAddEdgeClicked()
 
 void MainWindow::onPlotButtonClicked()
 {
-    Dialog dialog;
-    dialog.drawPlot(ui_slave->getSolutionsHistory());
-    dialog.exec();
+    // Dialog dialog;
+    // dialog.drawPlot(ui_slave->getSolutionsHistory());
+    // dialog.exec();
+    
+    auto &elements = ui_slave->getSolutionsHistory();
+    QVector<double> x;
+    QVector<double> y;
+    for (int i = 0; i < elements.size(); i++)
+    {
+        x.push_back(0.);
+        y.push_back(0.);
+        x[i] = (double) i;
+        y[i] = (double) elements[i];
+    }
+
+    QCustomPlot *plot = new QCustomPlot();
+    plot->addGraph();
+    auto pen = QPen(Qt::magenta);
+    pen.setWidth(6);
+    pen.setCapStyle(Qt::RoundCap);
+    plot->graph(0)->setPen(pen);
+    plot->graph(0)->setData(x, y);
+    long graph_width = elements.size();
+    plot->xAxis->setRange(-graph_width * 0.1, graph_width * 1.1);
+    long graph_height = elements.front() - elements.back();
+    plot->yAxis->setRange(elements.back() - graph_height * 0.1, elements.front() + graph_height * 0.1);
+    plot->replot();
+    plot->resize(1000, 500);
+    plot->show();
 }
 
 

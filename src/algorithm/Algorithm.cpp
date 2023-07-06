@@ -159,7 +159,7 @@ std::size_t Algorithm::getAllPopulationsAmount() const
     return solutions_history.size();
 }
 
-const std::vector<int> &Algorithm::getSolutionsHistory() const
+const std::vector<long> &Algorithm::getSolutionsHistory() const
 {
     return solutions_history;
 }

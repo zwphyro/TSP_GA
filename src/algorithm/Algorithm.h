@@ -21,7 +21,7 @@ public:
     void switchToLastPopulation();
 
     std::size_t getAllPopulationsAmount() const;
-    const std::vector<int> &getSolutionsHistory() const;
+    const std::vector<long> &getSolutionsHistory() const;
 
     const graph_t &graph;
 
@@ -35,7 +35,7 @@ private:
     int equivalent_solutions_amount;
     bool end_detector;
 
-    std::vector<int> solutions_history;
+    std::vector<long> solutions_history;
     std::list<Population>::iterator current_population;
     population_list_t populations_history;
 
