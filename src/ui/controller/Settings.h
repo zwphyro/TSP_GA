@@ -10,8 +10,8 @@
 struct Settings
 {
 
-    double probability = 1.0;
-    int count_crossover = 1;
+    double probability = 0.2;
+    int count_crossover = 2;
     int population_size = 10;
 
 };

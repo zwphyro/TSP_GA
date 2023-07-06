@@ -18,10 +18,10 @@ MainWindow::MainWindow(QWidget *parent)
     initConnectBlockControl();
     initConnectTabAddVertex();
     initConnectTabRandom();
-    connect(ui->pushButton_save,SIGNAL(clicked()),this,SLOT(onSaveClicked()));
-    connect(ui->radioButton_full_population,SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
-    connect(ui->radioButton_best_individual,SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
-    connect(ui->radioButton_worst_individual,SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
+    connect(ui->pushButton_save, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
+    connect(ui->radioButton_full_population, SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
+    connect(ui->radioButton_best_individual, SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
+    connect(ui->radioButton_worst_individual, SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
 
 
     ui->scrollArea_list_of_edge->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
@@ -93,17 +93,18 @@ void MainWindow::initConnectBlockControl()
     connect(ui->pushButton_start, SIGNAL(clicked()),
             this, SLOT(onStartClicked()));
 
-    connect(ui->pushButton_step_back,SIGNAL(clicked()),
-            this,SLOT(onPrevClicked()));
+    connect(ui->pushButton_step_back, SIGNAL(clicked()),
+            this, SLOT(onPrevClicked()));
 
-    connect(ui->pushButton_step_forward,SIGNAL(clicked()),
-            this,SLOT(onNextClicked()));
+    connect(ui->pushButton_step_forward, SIGNAL(clicked()),
+            this, SLOT(onNextClicked()));
 }
 
-void MainWindow::onGraphGenerateAdd() 
+void MainWindow::onGraphGenerateAdd()
 {
-    if(!controllerUi.initAdd(list_edge,ui->spinBox_enter_city_add->value())){
-        QMessageBox::warning(this, "Внимание","Граф не очень, но мы поправили");
+    if (!controllerUi.initAdd(list_edge, ui->spinBox_enter_city_add->value()))
+    {
+        QMessageBox::warning(this, "Внимание", "Граф не очень, но мы поправили");
     }
 
     list_edge.resize(0);
@@ -112,24 +113,27 @@ void MainWindow::onGraphGenerateAdd()
     drawGraph();
 }
 
-void MainWindow::onGraphGenerateRandom() 
+void MainWindow::onGraphGenerateRandom()
 {
-    if(!controllerUi.initRandom(ui->spinBox_enter_city_rnd->value())){
-        QMessageBox::warning(this, "Внимание","Граф не очень, но мы поправили");
+    if (!controllerUi.initRandom(ui->spinBox_enter_city_rnd->value()))
+    {
+        QMessageBox::warning(this, "Внимание", "Граф не очень, но мы поправили");
     }
     drawGraph();
 }
 
-void MainWindow::onGraphGenerateFile() 
+void MainWindow::onGraphGenerateFile()
 {
-    if(!controllerUi.initFile(ui->label_chosen_file->text().toStdString())){
-        QMessageBox::warning(this, "Внимание","Граф не очень, но мы поправили");
+    if (!controllerUi.initFile(ui->label_chosen_file->text().toStdString()))
+    {
+        QMessageBox::warning(this, "Внимание", "Граф не очень, но мы поправили");
     }
     drawGraph();
 }
 
-void MainWindow::radioButtonClicked() {
-    if(ui_slave == nullptr)//nothing to draw
+void MainWindow::radioButtonClicked()
+{
+    if (ui_slave == nullptr)//nothing to draw
         return;
     chooseWhatToDraw();
 }
@@ -141,11 +145,12 @@ void MainWindow::onSaveClicked()
     controllerUi.settings.population_size = ui->spinBox_user_count_population->value();
 
 
-    if(controllerUi.settings.count_crossover!=1 && controllerUi.settings.count_crossover!=2 ||
-            controllerUi.settings.probability > 1.0 && controllerUi.settings.probability<0.0 ||
-            controllerUi.settings.population_size <= 0
-    ){
-        QMessageBox::warning(this, "Внимание","Настройки не очень, но мы поправили");
+    if (controllerUi.settings.count_crossover != 1 && controllerUi.settings.count_crossover != 2 ||
+        controllerUi.settings.probability > 1.0 && controllerUi.settings.probability < 0.0 ||
+        controllerUi.settings.population_size <= 0
+            )
+    {
+        QMessageBox::warning(this, "Внимание", "Настройки не очень, но мы поправили");
         controllerUi.settings.count_crossover = 1;
         controllerUi.settings.probability = 1.0;
         controllerUi.settings.population_size = 10;
@@ -158,27 +163,33 @@ void MainWindow::onSaveClicked()
 }
 
 
-void MainWindow::onStartClicked() {
-    std::cout<<"start\n";
+void MainWindow::onStartClicked()
+{
+    std::cout << "start\n";
 
-    if(ui_slave!= nullptr){
+    if (ui_slave != nullptr)
+    {
         delete ui_slave;
     }
-    if(controllerUi.getGraph().size()==0){
-        QMessageBox::warning(this, "Внимание","Граф не задан");
+    if (controllerUi.getGraph().size() == 0)
+    {
+        QMessageBox::warning(this, "Внимание", "Граф не задан");
         return;
     }
     ui_slave = new Algorithm(controllerUi.getGraph(),
-                             controllerUi.settings.population_size);
+                             controllerUi.settings);
 
     chooseWhatToDraw();
 }
 
-void MainWindow::onNextClicked() {
-    std::cout<<"next\n";
-    if(ui_slave != nullptr){
+void MainWindow::onNextClicked()
+{
+    std::cout << "next\n";
+    if (ui_slave != nullptr)
+    {
 
-        if(ui_slave->switchToNextPopulation() == 0){
+        if (ui_slave->switchToNextPopulation() == 0)
+        {
             chooseWhatToDraw();
         }
     }
@@ -186,21 +197,26 @@ void MainWindow::onNextClicked() {
 
 }
 
-void MainWindow::onPrevClicked() {
-    std::cout<<"prev\n";
-    if(ui_slave){
+void MainWindow::onPrevClicked()
+{
+    std::cout << "prev\n";
+    if (ui_slave)
+    {
         //check;
-        if(ui_slave->switchToPreviousPopulation() == 0){
+        if (ui_slave->switchToPreviousPopulation() == 0)
+        {
             chooseWhatToDraw();
         }
     }
 
 }
 
-void MainWindow::onSkipClicked() {
-    std::cout<<"skip\n";
+void MainWindow::onSkipClicked()
+{
+    std::cout << "skip\n";
 
-    if(ui_slave){
+    if (ui_slave)
+    {
         //check;
         ui_slave->switchToLastPopulation();
     }
@@ -211,16 +227,14 @@ void MainWindow::onSkipClicked() {
 void MainWindow::drawGraph()
 {
 
-    if(!list_point)
+    if (!list_point)
         delete list_point;
-
 
 
     scene->clear();
 
     QBrush greenBrush(Qt::green);
     QBrush blueBrush(Qt::blue);
-
 
 
     unsigned n = controllerUi.getGraph().size();
@@ -250,10 +264,10 @@ void MainWindow::drawGraph()
         for (int j = i; j < n; j++)
         {
             //std::cout<<ui_slave->graph[i][j];
-            if(controllerUi.getGraph()[i][j]!=0 && controllerUi.getGraph()[i][j]!=INT_MAX)
+            if (controllerUi.getGraph()[i][j] != 0 && controllerUi.getGraph()[i][j] != INT_MAX)
             {
-                scene->addLine(list_point[i].x + CONST_SHIFT_LINE,list_point[i].y + CONST_SHIFT_LINE,
-                               list_point[j].x + CONST_SHIFT_LINE,list_point[j].y + CONST_SHIFT_LINE);
+                scene->addLine(list_point[i].x + CONST_SHIFT_LINE, list_point[i].y + CONST_SHIFT_LINE,
+                               list_point[j].x + CONST_SHIFT_LINE, list_point[j].y + CONST_SHIFT_LINE);
 
             }
         }
@@ -264,32 +278,32 @@ void MainWindow::drawGraph()
 
 }
 
-void MainWindow::drawPoints(int n) 
+void MainWindow::drawPoints(int n)
 {
     unsigned point_radius = 40;
     QPen outlinePen(Qt::black);
     outlinePen.setWidth(2);
 
-    for(int i = 0; i < n; i++)
+    for (int i = 0; i < n; i++)
     {
-        scene -> addEllipse(list_point[i].x,list_point[i].y ,point_radius, point_radius,
-                            outlinePen, Qt::white);
-        text = scene ->addText(QString::number(i));
-        text->setPos(list_point[i].x + CONST_SHIFT_TEXT,list_point[i].y + CONST_SHIFT_TEXT);
+        scene->addEllipse(list_point[i].x, list_point[i].y, point_radius, point_radius,
+                          outlinePen, Qt::white);
+        text = scene->addText(QString::number(i));
+        text->setPos(list_point[i].x + CONST_SHIFT_TEXT, list_point[i].y + CONST_SHIFT_TEXT);
     }
 }
 
 
-void MainWindow::drawIndividual() 
+void MainWindow::drawIndividual()
 {
     scene->clear();
-    if(!ui_slave)
+    if (!ui_slave)
         return;
     //scene->update();
 
 
     int n = controllerUi.getGraph().size();
-    if(!list_point)
+    if (!list_point)
     {
         //error mes
         return;
@@ -300,10 +314,10 @@ void MainWindow::drawIndividual()
 
     if (ui->radioButton_best_individual->isChecked())
     {
-        for (int i = 0; i < n-1; i++)
+        for (int i = 0; i < n - 1; i++)
         {
-            int first_element = ui_slave -> getCurrentPopulation().getBestIndividual().first[i];
-            int second_element = ui_slave -> getCurrentPopulation().getBestIndividual().first[i+1];
+            int first_element = ui_slave->getCurrentPopulation().getBestIndividual().first[i];
+            int second_element = ui_slave->getCurrentPopulation().getBestIndividual().first[i + 1];
 
             scene->addLine(list_point[first_element].x + CONST_SHIFT_LINE,
                            list_point[first_element].y + CONST_SHIFT_LINE,
@@ -311,12 +325,12 @@ void MainWindow::drawIndividual()
                            list_point[second_element].y + CONST_SHIFT_LINE,
                            outlinePen);
             scene->addText(QString::number(controllerUi.getGraph()[first_element][second_element]))
-            ->setPos((list_point[first_element].x+list_point[second_element].x)/2 ,
-                     (list_point[first_element].y+list_point[second_element].y)/2 );
+                    ->setPos((list_point[first_element].x + list_point[second_element].x) / 2,
+                             (list_point[first_element].y + list_point[second_element].y) / 2);
         }
 
-        int start_element = ui_slave -> getCurrentPopulation().getBestIndividual().first[0];
-        int end_element = ui_slave -> getCurrentPopulation().getBestIndividual().first[n-1];
+        int start_element = ui_slave->getCurrentPopulation().getBestIndividual().first[0];
+        int end_element = ui_slave->getCurrentPopulation().getBestIndividual().first[n - 1];
 
         scene->addLine(list_point[start_element].x + CONST_SHIFT_LINE,
                        list_point[start_element].y + CONST_SHIFT_LINE,
@@ -324,8 +338,8 @@ void MainWindow::drawIndividual()
                        list_point[end_element].y + CONST_SHIFT_LINE,
                        outlinePen);
         scene->addText(QString::number(controllerUi.getGraph()[start_element][end_element]))
-                ->setPos((list_point[start_element].x+list_point[end_element].x)/2 ,
-                         (list_point[start_element].y+list_point[end_element].y)/2 );
+                ->setPos((list_point[start_element].x + list_point[end_element].x) / 2,
+                         (list_point[start_element].y + list_point[end_element].y) / 2);
 
     } else
     {
@@ -341,12 +355,13 @@ void MainWindow::drawPopulation()
 {
     scene->clear();
 
-    if(!ui_slave)
+    if (!ui_slave)
         return;
     int N = ui_slave->getCurrentPopulation().getIndividuals().size();
 
-    for (int i = 0; i < N; i++){
-        QString str = QString::number(i+1) + ") ";
+    for (int i = 0; i < N; i++)
+    {
+        QString str = QString::number(i + 1) + ") ";
         for (int j = 0; j < controllerUi.getGraph().size(); j++)
         {
 
@@ -363,26 +378,26 @@ void MainWindow::drawPopulation()
 
 }
 
-void MainWindow::chooseWhatToDraw() 
+void MainWindow::chooseWhatToDraw()
 {
 
-    std::cout<<"choose draw type\n";
+    std::cout << "choose draw type\n";
 
     if (ui->radioButton_best_individual->isChecked())
     {
-        std::cout<<"choosen best\n";
-            drawIndividual();
+        std::cout << "choosen best\n";
+        drawIndividual();
     } else if (ui->radioButton_worst_individual->isChecked())
     {
-        std::cout<<"choosen worst\n";
-            drawIndividual();
+        std::cout << "choosen worst\n";
+        drawIndividual();
     } else if (ui->radioButton_full_population->isChecked())
     {
-        std::cout<<"choosen full\n";
+        std::cout << "choosen full\n";
         drawPopulation();
     } else
     {
-        QMessageBox::warning(this, "Внимание","Вы не выбрали что выводить");
+        QMessageBox::warning(this, "Внимание", "Вы не выбрали что выводить");
     }
 
 }

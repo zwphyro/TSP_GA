@@ -108,10 +108,6 @@ void Mating::mutation(chromosome_t &chromosome, int mutation_rate)
         // Swap the genes at the selected positions
         std::swap(chromosome[position_1], chromosome[position_2]);
     }
-
-// Modify the order of the chromosome after mutation
-    modifyOrder(chromosome);
-
 }
 
 
@@ -132,9 +128,6 @@ void Mating::mutationSwitch(chromosome_t &chromosome, int mutation_rate)
         // Reverse the segment of genes between position_1 and position_2 (inclusive)
         std::reverse(chromosome.begin() + position_1, chromosome.begin() + position_2 + 1);
     }
-
-    // Modify the order of the chromosome by moving the '0' gene to the beginning
-    modifyOrder(chromosome);
 }
 
 
@@ -197,29 +190,4 @@ std::vector<chromosome_t> Mating::getMutated(const Population &population)
     }
 
     return mutated_individuals;
-}
-
-
-/*
-Modify the order of the chromosome by moving the '0' gene to the beginning.
-This function finds the index of the '0' gene in the chromosome and rearranges the genes accordingly.
-*/
-void Mating::modifyOrder(chromosome_t &chromosome)
-{
-    // Find the index of the '0' gene in the chromosome
-    int zero_index = 0;
-    for (int i = 0; i < chromosome_size; i++)
-    {
-        if (chromosome[i] == 0)
-        {
-            zero_index = i;
-            break;
-        }
-    }
-
-    // Move the genes before the '0' gene to the end of the chromosome
-    chromosome.insert(chromosome.end(), chromosome.begin(), chromosome.begin() + zero_index);
-
-    // Remove the genes before the '0' gene from the beginning of the chromosome
-    chromosome.erase(chromosome.begin(), chromosome.begin() + zero_index);
 }

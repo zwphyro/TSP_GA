@@ -31,13 +31,9 @@ private:
     // Perform mutation on a chromosome by reversing a segment of genes
     void mutationSwitch(chromosome_t &chromosome, int mutation_rate);
 
-    // Modify the order of the chromosome by moving the '0' gene to the beginning
-    void modifyOrder(chromosome_t &chromosome);
-
     int chromosome_size;                // Size of the chromosome
     int amount_of_crossover_dots;        // Number of crossover points
     double mutation_probability;        // Probability of mutation
-
 };
 
 #endif //TSP_GA_MATING_H
