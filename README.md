@@ -20,7 +20,7 @@
 
 ### Установка библиотеки QCustomPlot на Linux:
 
-Прописать в копандной строке:
+Прописать в командной строке:  
    `sudo apt-get install qcustomplot`
     
 
