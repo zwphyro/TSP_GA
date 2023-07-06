@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     initConnectRadioButton();
 
     connect(ui->pushButton_save, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
-    connect(ui->pushButton_plot,SIGNAL(clicked()),this,SLOT(onPlotButtonClicked()));
+    connect(ui->pushButton_plot, SIGNAL(clicked()), this, SLOT(onPlotButtonClicked()));
 
     ui->pushButton_plot->setDisabled(true);
 
@@ -71,8 +71,8 @@ void MainWindow::onPushButtonAddEdgeClicked()
 
 }
 
-void MainWindow::onPlotButtonClicked(){
-
+void MainWindow::onPlotButtonClicked()
+{
     Dialog dialog;
     dialog.drawPlot(ui_slave->getSolutionsHistory());
     dialog.exec();
@@ -126,13 +126,14 @@ void MainWindow::initConnectBlockControl()
             this, SLOT(onNextClicked()));
 }
 
-void MainWindow::initConnectRadioButton(){
+void MainWindow::initConnectRadioButton()
+{
     connect(ui->radioButton_full_population, SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
     connect(ui->radioButton_best_individual, SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
     connect(ui->radioButton_worst_individual, SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
-    connect(ui->radioButton_mutation_standart,SIGNAL(clicked()),this,SLOT(onMutationRadioButtonClicked()));
-    connect(ui->radioButton_mutation_mix,SIGNAL(clicked()),this,SLOT(onMutationRadioButtonClicked()));
-    connect(ui->radioButton_mutation_reverse,SIGNAL(clicked()),this,SLOT(onMutationRadioButtonClicked()));
+    connect(ui->radioButton_mutation_standart, SIGNAL(clicked()), this, SLOT(onMutationRadioButtonClicked()));
+    connect(ui->radioButton_mutation_mix, SIGNAL(clicked()), this, SLOT(onMutationRadioButtonClicked()));
+    connect(ui->radioButton_mutation_reverse, SIGNAL(clicked()), this, SLOT(onMutationRadioButtonClicked()));
 }
 
 void MainWindow::onGraphGenerateAdd()
@@ -167,7 +168,8 @@ void MainWindow::onGraphGenerateRandom()
     drawGraph();
 }
 
-void MainWindow::onFullRandomClicked() {
+void MainWindow::onFullRandomClicked()
+{
     if (!controllerUi.initRandom(0))
     {
         QMessageBox::warning(this, "Внимание", "Граф не очень, но мы поправили");
@@ -175,6 +177,7 @@ void MainWindow::onFullRandomClicked() {
     ui->pushButton_plot->setDisabled(true);
     drawGraph();
 }
+
 void MainWindow::onGraphGenerateFile()
 {
     if (!controllerUi.initFile(ui->label_chosen_file->text().toStdString()))
@@ -195,17 +198,17 @@ void MainWindow::radioButtonClicked()
 void MainWindow::onMutationRadioButtonClicked()
 {
 
-    if(ui->radioButton_mutation_standart->isChecked())
+    if (ui->radioButton_mutation_standart->isChecked())
     {
         controllerUi.settings.mutation = 1;
         return;
     }
-    if(ui->radioButton_mutation_reverse->isChecked())
+    if (ui->radioButton_mutation_reverse->isChecked())
     {
         controllerUi.settings.mutation = 2;
         return;
     }
-    if(ui->radioButton_mutation_mix->isChecked())
+    if (ui->radioButton_mutation_mix->isChecked())
     {
         controllerUi.settings.mutation = 3;
         return;
