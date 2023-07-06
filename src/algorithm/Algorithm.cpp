@@ -13,7 +13,7 @@
  */
 Algorithm::Algorithm(const graph_t &graph, Settings settings) : graph(graph)
 {
-    population_size = settings.population_size;
+    population_size = settings.population_size * graph.size();
     mutation_probability = settings.probability;
     amount_of_crossover_dots = settings.count_crossover;
     max_population_history_size = 5;
