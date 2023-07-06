@@ -38,18 +38,42 @@ MainWindow::~MainWindow()
 
 void MainWindow::onPushButtonAddEdgeClicked()
 {
-    std::pair<int, std::pair<int, int>> element =
-            std::pair(ui->spinBox_distance_between_cities->value(),
-                      std::pair(ui->spinBox_departure_city->value(), ui->spinBox_arrival_city->value()));
+//    std::pair<int, std::pair<int, int>> element =
+//            std::pair(ui->spinBox_distance_between_cities->value(),
+//                      std::pair(ui->spinBox_departure_city->value(), ui->spinBox_arrival_city->value()));
+//
+//
+//    list_edge.push_back(element);
 
+    int index = controllerUi.check.addEdge(list_edge,ui->spinBox_distance_between_cities->value(),
+                               ui->spinBox_departure_city->value(),
+                               ui->spinBox_arrival_city->value(),
+                               ui->spinBox_enter_city_add->value());
 
-    list_edge.push_back(element);
+    if(index == -2){
+        QMessageBox::warning(this, "Внимание","Не существует города с данным индексом");
+        return;
+    }
+
+    if(index != -1)
+    {
+        QLayoutItem* item;
+        item = layout->takeAt( index );
+        delete item->widget();
+        delete item;
+    }
     QString added_line = QString::number(ui->spinBox_departure_city->value()) + " -> "
                          + QString::number(ui->spinBox_arrival_city->value()) + ": weight = "
                          + QString::number(ui->spinBox_distance_between_cities->value());
-
     QLabel *label_added = new QLabel(added_line);
     layout->addWidget(label_added);
+    for (int i = 0; i < list_edge.size(); i++)
+    {
+        std::cout<<list_edge[i].second.first<<list_edge[i].second.second<<list_edge[i].first;
+    }
+    std::cout<<"\n";
+
+
 }
 
 
@@ -107,7 +131,15 @@ void MainWindow::onGraphGenerateAdd()
     }
 
     list_edge.resize(0);
-
+    if ( layout != NULL )
+    {
+        QLayoutItem* item;
+        while ( ( item = layout->takeAt( 0 ) ) != NULL )
+        {
+            delete item->widget();
+            delete item;
+        }
+    }
 
     drawGraph();
 }
@@ -159,7 +191,7 @@ void MainWindow::onSaveClicked()
 
 
 void MainWindow::onStartClicked() {
-    std::cout<<"start\n";
+    //std::cout<<"start\n";
 
     if(ui_slave!= nullptr){
         delete ui_slave;
@@ -177,8 +209,9 @@ void MainWindow::onStartClicked() {
 void MainWindow::onNextClicked() {
     std::cout<<"next\n";
     if(ui_slave != nullptr){
-
+        std::cout<<"not null\n";
         if(ui_slave->switchToNextPopulation() == 0){
+            std::cout<<"next exist\n";
             chooseWhatToDraw();
         }
     }
@@ -187,7 +220,7 @@ void MainWindow::onNextClicked() {
 }
 
 void MainWindow::onPrevClicked() {
-    std::cout<<"prev\n";
+    //std::cout<<"prev\n";
     if(ui_slave){
         //check;
         if(ui_slave->switchToPreviousPopulation() == 0){
@@ -198,7 +231,7 @@ void MainWindow::onPrevClicked() {
 }
 
 void MainWindow::onSkipClicked() {
-    std::cout<<"skip\n";
+    //std::cout<<"skip\n";
 
     if(ui_slave){
         //check;
@@ -282,6 +315,7 @@ void MainWindow::drawPoints(int n)
 
 void MainWindow::drawIndividual() 
 {
+
     scene->clear();
     if(!ui_slave)
         return;
@@ -297,6 +331,8 @@ void MainWindow::drawIndividual()
 
     QPen outlinePen(Qt::red);
     outlinePen.setWidth(2);
+
+
 
     if (ui->radioButton_best_individual->isChecked())
     {
@@ -329,6 +365,33 @@ void MainWindow::drawIndividual()
 
     } else
     {
+
+        for (int i = 0; i < n-1; i++)
+        {
+            int first_element = ui_slave -> getCurrentPopulation().getWorstIndividual().first[i];
+            int second_element = ui_slave -> getCurrentPopulation().getWorstIndividual().first[i+1];
+
+            scene->addLine(list_point[first_element].x + CONST_SHIFT_LINE,
+                           list_point[first_element].y + CONST_SHIFT_LINE,
+                           list_point[second_element].x + CONST_SHIFT_LINE,
+                           list_point[second_element].y + CONST_SHIFT_LINE,
+                           outlinePen);
+            scene->addText(QString::number(controllerUi.getGraph()[first_element][second_element]))
+                    ->setPos((list_point[first_element].x+list_point[second_element].x)/2 ,
+                             (list_point[first_element].y+list_point[second_element].y)/2 );
+        }
+
+        int start_element = ui_slave -> getCurrentPopulation().getWorstIndividual().first[0];
+        int end_element = ui_slave -> getCurrentPopulation().getWorstIndividual().first[n-1];
+
+        scene->addLine(list_point[start_element].x + CONST_SHIFT_LINE,
+                       list_point[start_element].y + CONST_SHIFT_LINE,
+                       list_point[end_element].x + CONST_SHIFT_LINE,
+                       list_point[end_element].y + CONST_SHIFT_LINE,
+                       outlinePen);
+        scene->addText(QString::number(controllerUi.getGraph()[start_element][end_element]))
+                ->setPos((list_point[start_element].x+list_point[end_element].x)/2 ,
+                         (list_point[start_element].y+list_point[end_element].y)/2 );
 
     }
 

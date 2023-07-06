@@ -33,3 +33,26 @@ bool CheckData::checkGraph(graph_t &graph)
     }
     return check;
 }
+
+int CheckData::addEdge(std::vector<std::pair<int, std::pair<int, int>>>& list_edge, int distance, int departure, int arrival, int n)
+{
+
+    if(arrival>=n || departure>=n)
+        return -2;
+
+    for (int i = 0; i < list_edge.size(); i++)
+    {
+        if(list_edge[i].second.first == departure && list_edge[i].second.second == arrival){
+            list_edge[i].first = distance;
+            return i;
+        }
+    }
+    std::pair<int, std::pair<int, int>> element =
+            std::pair(distance,
+                      std::pair(departure, arrival));
+
+
+    list_edge.push_back(element);
+
+    return -1;
+}
