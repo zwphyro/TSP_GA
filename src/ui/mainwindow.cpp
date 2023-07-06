@@ -20,7 +20,9 @@ MainWindow::MainWindow(QWidget *parent)
     initConnectRadioButton();
 
     connect(ui->pushButton_save, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
-    //connect(ui->pushButton_plot)
+    connect(ui->pushButton_plot,SIGNAL(clicked()),this,SLOT(onPlotButtonClicked()));
+
+    ui->pushButton_plot->setDisabled(true);
 
     ui->scrollArea_list_of_edge->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     ui->scrollArea_list_of_edge->setWidgetResizable(true);
@@ -66,6 +68,13 @@ void MainWindow::onPushButtonAddEdgeClicked()
     std::cout<<"\n";
 
 
+}
+
+void MainWindow::onPlotButtonClicked(){
+
+    Dialog dialog;
+    dialog.drawPlot(ui_slave->getSolutionsHistory());
+    dialog.exec();
 }
 
 
@@ -143,6 +152,7 @@ void MainWindow::onGraphGenerateAdd()
         }
     }
 
+    ui->pushButton_plot->setDisabled(true);
     drawGraph();
 }
 
@@ -152,6 +162,7 @@ void MainWindow::onGraphGenerateRandom()
     {
         QMessageBox::warning(this, "Внимание", "Граф не очень, но мы поправили");
     }
+    ui->pushButton_plot->setDisabled(true);
     drawGraph();
 }
 
@@ -160,6 +171,7 @@ void MainWindow::onFullRandomClicked() {
     {
         QMessageBox::warning(this, "Внимание", "Граф не очень, но мы поправили");
     }
+    ui->pushButton_plot->setDisabled(true);
     drawGraph();
 }
 void MainWindow::onGraphGenerateFile()
@@ -168,6 +180,7 @@ void MainWindow::onGraphGenerateFile()
     {
         QMessageBox::warning(this, "Внимание", "Граф не очень, но мы поправили");
     }
+    ui->pushButton_plot->setDisabled(true);
     drawGraph();
 }
 
@@ -178,16 +191,21 @@ void MainWindow::radioButtonClicked()
     chooseWhatToDraw();
 }
 
-void MainWindow::onMutationRadioButtonClicked(){
-    if(ui->radioButton_mutation_standart->isChecked()){
+void MainWindow::onMutationRadioButtonClicked()
+{
+
+    if(ui->radioButton_mutation_standart->isChecked())
+    {
         controllerUi.settings.mutation = 1;
         return;
     }
-    if(ui->radioButton_mutation_reverse->isChecked()){
+    if(ui->radioButton_mutation_reverse->isChecked())
+    {
         controllerUi.settings.mutation = 2;
         return;
     }
-    if(ui->radioButton_mutation_mix->isChecked()){
+    if(ui->radioButton_mutation_mix->isChecked())
+    {
         controllerUi.settings.mutation = 3;
         return;
     }
@@ -235,6 +253,8 @@ void MainWindow::onStartClicked()
     ui_slave = new Algorithm(controllerUi.getGraph(),
                              controllerUi.settings);
 
+
+    ui->pushButton_plot->setDisabled(false);
     chooseWhatToDraw();
 }
 
