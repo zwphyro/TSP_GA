@@ -75,13 +75,10 @@ bool ControllerUI::initFile(std::string sourceFile)
     file.close();
 
 
-
-
-
     return check.checkGraph(graph);
 }
 
-bool ControllerUI::initAdd(std::vector<std::pair<int,std::pair<int,int>>> list_edge, int n)
+bool ControllerUI::initAdd(std::vector<std::pair<int, std::pair<int, int>>> list_edge, int n)
 {
     initMax(n);
     for (int i = 0; i < list_edge.size(); i++)
@@ -113,8 +110,7 @@ bool ControllerUI::initRandom(int n)
             if (i == j)
             {
                 graph[i][j] = INT_MAX;
-            }
-            else
+            } else
             {
                 graph[i][j] = randomizer.getRandomInt(1, INT_MAX);
                 graph[j][i] = graph[i][j];
@@ -123,7 +119,6 @@ bool ControllerUI::initRandom(int n)
 
         }
     }
-
 
 
     return check.checkGraph(graph);
@@ -139,7 +134,7 @@ void ControllerUI::initMax(int n)
     }
 }
 
-const graph_t & ControllerUI::getGraph()  
+const graph_t &ControllerUI::getGraph()
 {
     return graph;
 }

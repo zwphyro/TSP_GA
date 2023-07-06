@@ -74,8 +74,8 @@ void MainWindow::onPushButtonAddEdgeClicked()
 void MainWindow::onPlotButtonClicked()
 {
     auto &elements = ui_slave->getSolutionsHistory();
-    QVector<double> x(elements.size());
-    QVector<double> y(elements.size());
+    QVector<double> x;
+    QVector<double> y;
     for (int i = 0; i < elements.size(); i++)
     {
         x.push_back(0.);
@@ -86,9 +86,15 @@ void MainWindow::onPlotButtonClicked()
 
     QCustomPlot *plot = new QCustomPlot();
     plot->addGraph();
+    auto pen = QPen(Qt::magenta);
+    pen.setWidth(6);
+    pen.setCapStyle(Qt::RoundCap);
+    plot->graph(0)->setPen(pen);
     plot->graph(0)->setData(x, y);
-    plot->xAxis->setRange(-10, elements.size() + 10);
-    plot->yAxis->setRange(-10, elements.front() + 10);
+    long graph_width = elements.size();
+    plot->xAxis->setRange(-graph_width * 0.1, graph_width * 1.1);
+    long graph_height = elements.front() - elements.back();
+    plot->yAxis->setRange(elements.back() - graph_height * 0.1, elements.front() + graph_height * 0.1);
     plot->replot();
     plot->resize(1000, 500);
     plot->show();
