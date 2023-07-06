@@ -9,7 +9,6 @@ MainWindow::MainWindow(QWidget *parent)
     layout = new QVBoxLayout(this);
     ui->scrollAreaWidgetContents->setLayout(layout);
 
-    //paint = new PaintWidget(ui->widget_algorithm_demonstartion);
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
 
@@ -18,15 +17,13 @@ MainWindow::MainWindow(QWidget *parent)
     initConnectBlockControl();
     initConnectTabAddVertex();
     initConnectTabRandom();
-    connect(ui->pushButton_save, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
-    connect(ui->radioButton_full_population, SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
-    connect(ui->radioButton_best_individual, SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
-    connect(ui->radioButton_worst_individual, SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
+    initConnectRadioButton();
 
+    connect(ui->pushButton_save, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
+    //connect(ui->pushButton_plot)
 
     ui->scrollArea_list_of_edge->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     ui->scrollArea_list_of_edge->setWidgetResizable(true);
-
 
 }
 
@@ -38,12 +35,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::onPushButtonAddEdgeClicked()
 {
-//    std::pair<int, std::pair<int, int>> element =
-//            std::pair(ui->spinBox_distance_between_cities->value(),
-//                      std::pair(ui->spinBox_departure_city->value(), ui->spinBox_arrival_city->value()));
-//
-//
-//    list_edge.push_back(element);
 
     int index = controllerUi.check.addEdge(list_edge,ui->spinBox_distance_between_cities->value(),
                                ui->spinBox_departure_city->value(),
@@ -67,6 +58,7 @@ void MainWindow::onPushButtonAddEdgeClicked()
                          + QString::number(ui->spinBox_distance_between_cities->value());
     QLabel *label_added = new QLabel(added_line);
     layout->addWidget(label_added);
+
     for (int i = 0; i < list_edge.size(); i++)
     {
         std::cout<<list_edge[i].second.first<<list_edge[i].second.second<<list_edge[i].first;
@@ -103,7 +95,7 @@ void MainWindow::initConnectTabAddVertex()
 void MainWindow::initConnectTabRandom()
 {
     connect(ui->pushButton_full_rnd, SIGNAL(clicked()),
-            this, SLOT(onGraphGenerateRandom()));
+            this, SLOT(onFullRandomClicked()));
 
     connect(ui->pushButton_generate_rnd, SIGNAL(clicked()),
             this, SLOT(onGraphGenerateRandom()));
@@ -122,6 +114,15 @@ void MainWindow::initConnectBlockControl()
 
     connect(ui->pushButton_step_forward, SIGNAL(clicked()),
             this, SLOT(onNextClicked()));
+}
+
+void MainWindow::initConnectRadioButton(){
+    connect(ui->radioButton_full_population, SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
+    connect(ui->radioButton_best_individual, SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
+    connect(ui->radioButton_worst_individual, SIGNAL(clicked()), this, SLOT(radioButtonClicked()));
+    connect(ui->radioButton_mutation_standart,SIGNAL(clicked()),this,SLOT(onMutationRadioButtonClicked()));
+    connect(ui->radioButton_mutation_mix,SIGNAL(clicked()),this,SLOT(onMutationRadioButtonClicked()));
+    connect(ui->radioButton_mutation_reverse,SIGNAL(clicked()),this,SLOT(onMutationRadioButtonClicked()));
 }
 
 void MainWindow::onGraphGenerateAdd()
@@ -154,6 +155,13 @@ void MainWindow::onGraphGenerateRandom()
     drawGraph();
 }
 
+void MainWindow::onFullRandomClicked() {
+    if (!controllerUi.initRandom(0))
+    {
+        QMessageBox::warning(this, "Внимание", "Граф не очень, но мы поправили");
+    }
+    drawGraph();
+}
 void MainWindow::onGraphGenerateFile()
 {
     if (!controllerUi.initFile(ui->label_chosen_file->text().toStdString()))
@@ -168,6 +176,22 @@ void MainWindow::radioButtonClicked()
     if (ui_slave == nullptr)//nothing to draw
         return;
     chooseWhatToDraw();
+}
+
+void MainWindow::onMutationRadioButtonClicked(){
+    if(ui->radioButton_mutation_standart->isChecked()){
+        controllerUi.settings.mutation = 1;
+        return;
+    }
+    if(ui->radioButton_mutation_reverse->isChecked()){
+        controllerUi.settings.mutation = 2;
+        return;
+    }
+    if(ui->radioButton_mutation_mix->isChecked()){
+        controllerUi.settings.mutation = 3;
+        return;
+    }
+
 }
 
 void MainWindow::onSaveClicked()
@@ -415,7 +439,7 @@ void MainWindow::drawPopulation()
 
     if (!ui_slave)
         return;
-    int N = ui_slave->getCurrentPopulation().getIndividuals().size();
+    int N = ui_slave->getCurrentPopulation().size();
 
     for (int i = 0; i < N; i++)
     {
@@ -459,3 +483,5 @@ void MainWindow::chooseWhatToDraw()
     }
 
 }
+
+
