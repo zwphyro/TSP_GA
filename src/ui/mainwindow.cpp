@@ -73,9 +73,25 @@ void MainWindow::onPushButtonAddEdgeClicked()
 
 void MainWindow::onPlotButtonClicked()
 {
-    Dialog dialog;
-    dialog.drawPlot(ui_slave->getSolutionsHistory());
-    dialog.exec();
+    auto &elements = ui_slave->getSolutionsHistory();
+    QVector<double> x(elements.size());
+    QVector<double> y(elements.size());
+    for (int i = 0; i < elements.size(); i++)
+    {
+        x.push_back(0.);
+        y.push_back(0.);
+        x[i] = (double) i;
+        y[i] = (double) elements[i];
+    }
+
+    QCustomPlot *plot = new QCustomPlot();
+    plot->addGraph();
+    plot->graph(0)->setData(x, y);
+    plot->xAxis->setRange(-10, elements.size() + 10);
+    plot->yAxis->setRange(-10, elements.front() + 10);
+    plot->replot();
+    plot->resize(1000, 500);
+    plot->show();
 }
 
 
