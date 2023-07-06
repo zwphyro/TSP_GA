@@ -4,21 +4,22 @@
 
 #include "Algorithm.h"
 #include "../mating/mating.h"
-#include "../parents-selection/RouletteWheelSelection.h"
 #include "../new-generation-selection/NewGenerationSelection.h"
 #include <random>
-#include "../randomizer/Randomizer.h"
 
 
 /*
  * Constructor of the algorithm class, initializes the proles and creates the first population
  */
-Algorithm::Algorithm(const graph_t &graph, int population_size) : graph(graph)
+Algorithm::Algorithm(const graph_t &graph, Settings settings) : graph(graph)
 {
-    this->population_size = population_size;
-    mutation_probability = 0.2;
-    amount_of_crossover_dots = 2;
+    population_size = settings.population_size;
+    mutation_probability = settings.probability;
+    amount_of_crossover_dots = settings.count_crossover;
     max_population_history_size = 5;
+
+    populations_amount = 1;
+    equivalent_solutions_amount = 0;
     end_detector = false;
 
     generateFirstPopulation();
@@ -73,22 +74,9 @@ int Algorithm::switchToNextPopulation()
         return 1;
     }
 
-    Mating mater(graph.size(), amount_of_crossover_dots, mutation_probability);
-    std::vector<chromosome_t> children_individuals = mater.getChildren(*current_population);
-    std::vector<chromosome_t> mutated_individuals = mater.getMutated(*current_population);
-    children_individuals.insert(children_individuals.end(), mutated_individuals.begin(), mutated_individuals.end());
-    Population children_population(children_individuals, graph);
+    generateNextPopulation();
 
-    NewGenerationSelection new_generation_selector;
-    auto new_individuals = new_generation_selector.createNewGeneration(*current_population, children_population);
-
-    populations_history.emplace_back(new_individuals, graph);
     current_population++;
-    if (populations_history.size() > max_population_history_size)
-    {
-        populations_history.pop_front();
-    }
-
     return 0;
 }
 
@@ -112,5 +100,43 @@ int Algorithm::switchToPreviousPopulation()
  */
 void Algorithm::switchToLastPopulation()
 {
+    while (!end_detector)
+    {
+        generateNextPopulation();
+        switchToNextPopulation();
+    }
+}
 
+void Algorithm::generateNextPopulation()
+{
+    auto &last_population = populations_history.back();
+    Mating mater(graph.size(), amount_of_crossover_dots, mutation_probability);
+    std::vector<chromosome_t> children_individuals = mater.getChildren(last_population);
+    std::vector<chromosome_t> mutated_individuals = mater.getMutated(last_population);
+    children_individuals.insert(children_individuals.end(), mutated_individuals.begin(), mutated_individuals.end());
+    Population children_population(children_individuals, graph);
+
+    NewGenerationSelection new_generation_selector;
+    auto new_individuals = new_generation_selector.createNewGeneration(last_population, children_population);
+
+    populations_history.emplace_back(new_individuals, graph);
+    if (populations_history.size() > max_population_history_size)
+    {
+        populations_history.pop_front();
+    }
+
+    populations_amount++;
+
+    if (last_population.getBestIndividual().second == populations_history.back().getBestIndividual().second)
+    {
+        equivalent_solutions_amount++;
+    } else
+    {
+        equivalent_solutions_amount = 0;
+    }
+
+    if (populations_amount * 3 < equivalent_solutions_amount * 4)
+    {
+        end_detector = true;
+    }
 }
