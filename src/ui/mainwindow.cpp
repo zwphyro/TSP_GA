@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include <qcustomplot.h>
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -11,7 +12,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
-
 
     initConnectTabFile();
     initConnectBlockControl();
@@ -36,20 +36,21 @@ MainWindow::~MainWindow()
 void MainWindow::onPushButtonAddEdgeClicked()
 {
 
-    int index = controllerUi.check.addEdge(list_edge,ui->spinBox_distance_between_cities->value(),
-                               ui->spinBox_departure_city->value(),
-                               ui->spinBox_arrival_city->value(),
-                               ui->spinBox_enter_city_add->value());
+    int index = controllerUi.check.addEdge(list_edge, ui->spinBox_distance_between_cities->value(),
+                                           ui->spinBox_departure_city->value(),
+                                           ui->spinBox_arrival_city->value(),
+                                           ui->spinBox_enter_city_add->value());
 
-    if(index == -2){
-        QMessageBox::warning(this, "Внимание","Не существует города с данным индексом");
+    if (index == -2)
+    {
+        QMessageBox::warning(this, "Внимание", "Не существует города с данным индексом");
         return;
     }
 
-    if(index != -1)
+    if (index != -1)
     {
-        QLayoutItem* item;
-        item = layout->takeAt( index );
+        QLayoutItem *item;
+        item = layout->takeAt(index);
         delete item->widget();
         delete item;
     }
@@ -61,9 +62,9 @@ void MainWindow::onPushButtonAddEdgeClicked()
 
     for (int i = 0; i < list_edge.size(); i++)
     {
-        std::cout<<list_edge[i].second.first<<list_edge[i].second.second<<list_edge[i].first;
+        std::cout << list_edge[i].second.first << list_edge[i].second.second << list_edge[i].first;
     }
-    std::cout<<"\n";
+    std::cout << "\n";
 
 
 }
@@ -133,10 +134,10 @@ void MainWindow::onGraphGenerateAdd()
     }
 
     list_edge.resize(0);
-    if ( layout != NULL )
+    if (layout != NULL)
     {
-        QLayoutItem* item;
-        while ( ( item = layout->takeAt( 0 ) ) != NULL )
+        QLayoutItem *item;
+        while ((item = layout->takeAt(0)) != NULL)
         {
             delete item->widget();
             delete item;
@@ -238,12 +239,15 @@ void MainWindow::onStartClicked()
     chooseWhatToDraw();
 }
 
-void MainWindow::onNextClicked() {
-    std::cout<<"next\n";
-    if(ui_slave != nullptr){
-        std::cout<<"not null\n";
-        if(ui_slave->switchToNextPopulation() == 0){
-            std::cout<<"next exist\n";
+void MainWindow::onNextClicked()
+{
+    std::cout << "next\n";
+    if (ui_slave != nullptr)
+    {
+        std::cout << "not null\n";
+        if (ui_slave->switchToNextPopulation() == 0)
+        {
+            std::cout << "next exist\n";
 
             chooseWhatToDraw();
         }
@@ -252,9 +256,11 @@ void MainWindow::onNextClicked() {
 
 }
 
-void MainWindow::onPrevClicked() {
+void MainWindow::onPrevClicked()
+{
     //std::cout<<"prev\n";
-    if(ui_slave){
+    if (ui_slave)
+    {
         //check;
         if (ui_slave->switchToPreviousPopulation() == 0)
         {
@@ -264,7 +270,8 @@ void MainWindow::onPrevClicked() {
 
 }
 
-void MainWindow::onSkipClicked() {
+void MainWindow::onSkipClicked()
+{
     //std::cout<<"skip\n";
 
     if (ui_slave)
@@ -366,7 +373,6 @@ void MainWindow::drawIndividual()
     outlinePen.setWidth(2);
 
 
-
     if (ui->radioButton_best_individual->isChecked())
     {
         for (int i = 0; i < n - 1; i++)
@@ -399,10 +405,10 @@ void MainWindow::drawIndividual()
     } else
     {
 
-        for (int i = 0; i < n-1; i++)
+        for (int i = 0; i < n - 1; i++)
         {
-            int first_element = ui_slave -> getCurrentPopulation().getWorstIndividual().first[i];
-            int second_element = ui_slave -> getCurrentPopulation().getWorstIndividual().first[i+1];
+            int first_element = ui_slave->getCurrentPopulation().getWorstIndividual().first[i];
+            int second_element = ui_slave->getCurrentPopulation().getWorstIndividual().first[i + 1];
 
             scene->addLine(list_point[first_element].x + CONST_SHIFT_LINE,
                            list_point[first_element].y + CONST_SHIFT_LINE,
@@ -410,12 +416,12 @@ void MainWindow::drawIndividual()
                            list_point[second_element].y + CONST_SHIFT_LINE,
                            outlinePen);
             scene->addText(QString::number(controllerUi.getGraph()[first_element][second_element]))
-                    ->setPos((list_point[first_element].x+list_point[second_element].x)/2 ,
-                             (list_point[first_element].y+list_point[second_element].y)/2 );
+                    ->setPos((list_point[first_element].x + list_point[second_element].x) / 2,
+                             (list_point[first_element].y + list_point[second_element].y) / 2);
         }
 
-        int start_element = ui_slave -> getCurrentPopulation().getWorstIndividual().first[0];
-        int end_element = ui_slave -> getCurrentPopulation().getWorstIndividual().first[n-1];
+        int start_element = ui_slave->getCurrentPopulation().getWorstIndividual().first[0];
+        int end_element = ui_slave->getCurrentPopulation().getWorstIndividual().first[n - 1];
 
         scene->addLine(list_point[start_element].x + CONST_SHIFT_LINE,
                        list_point[start_element].y + CONST_SHIFT_LINE,
@@ -423,8 +429,8 @@ void MainWindow::drawIndividual()
                        list_point[end_element].y + CONST_SHIFT_LINE,
                        outlinePen);
         scene->addText(QString::number(controllerUi.getGraph()[start_element][end_element]))
-                ->setPos((list_point[start_element].x+list_point[end_element].x)/2 ,
-                         (list_point[start_element].y+list_point[end_element].y)/2 );
+                ->setPos((list_point[start_element].x + list_point[end_element].x) / 2,
+                         (list_point[start_element].y + list_point[end_element].y) / 2);
 
     }
 
