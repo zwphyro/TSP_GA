@@ -15,7 +15,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsItem>
-
+#include "dialog.h"
 #define CONST_SHIFT_LINE 20
 #define CONST_SHIFT_TEXT 10
 #define CONST_SCENE_WIDTH 230
@@ -64,6 +64,8 @@ private slots:
     void onNextClicked();
     void onPrevClicked();
     void onSkipClicked();
+
+    void onPlotButtonClicked();
 
 
 private:
