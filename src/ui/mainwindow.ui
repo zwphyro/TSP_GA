@@ -352,6 +352,49 @@
        <string>Your data: cross_dot = 2, population_const = 1,  frequence = 0,2  </string>
       </property>
      </widget>
+     <widget class="QWidget" name="verticalLayoutWidget_7">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>10</y>
+        <width>221</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Метод формирования детей:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radioButton_mutation_standart">
+         <property name="text">
+          <string>Стандартная мутация</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radioButton_mutation_reverse">
+         <property name="text">
+          <string>Мутация с разворотом аллели</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radioButton_mutation_mix">
+         <property name="text">
+          <string>Смешанная</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget">
@@ -444,6 +487,19 @@
       </rect>
      </property>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="pushButton_plot">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>510</y>
+      <width>112</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>График</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

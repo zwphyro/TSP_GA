@@ -51,11 +51,13 @@ public:
 private slots:
     void onPushButtonAddEdgeClicked();
     void onFileChoose();
+    void onFullRandomClicked();
 
     void onGraphGenerateAdd();
     void onGraphGenerateFile();
     void onGraphGenerateRandom();
     void radioButtonClicked();
+    void onMutationRadioButtonClicked();
     void onSaveClicked();
 
     void onStartClicked();
@@ -80,6 +82,9 @@ private:
     void initConnectTabAddVertex();
     void initConnectTabRandom();
     void initConnectBlockControl();
+    void initConnectRadioButton();
+
+
     void drawGraph();
     void drawIndividual();
     void drawPopulation();
