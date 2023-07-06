@@ -22,7 +22,7 @@ bool ControllerUI::initFile(std::string sourceFile)
         size_t pos;
         while ((pos = line.find(sep)) != std::string::npos)
         {
-            token = line.substr(0, pos);
+            line.substr(0, pos);
             //std::cout << token << std::endl;
             line.erase(0, pos + sep.length());
             n++;
@@ -32,6 +32,7 @@ bool ControllerUI::initFile(std::string sourceFile)
             n++;
         }
     }
+
 
     initMax(n);
     file.clear();
@@ -71,6 +72,7 @@ bool ControllerUI::initFile(std::string sourceFile)
     {
         std::cout << "cry baby";
     }
+    file.close();
 
 
 
@@ -89,7 +91,6 @@ bool ControllerUI::initAdd(std::vector<std::pair<int,std::pair<int,int>>> list_e
             graph[list_edge[i].second.first][list_edge[i].second.second] = list_edge[i].first;
         }
     }
-
 
 
     return check.checkGraph(graph);
