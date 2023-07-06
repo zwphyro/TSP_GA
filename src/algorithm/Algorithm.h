@@ -20,6 +20,9 @@ public:
     int switchToPreviousPopulation();
     void switchToLastPopulation();
 
+    std::size_t getAllPopulationsAmount() const;
+    const std::vector<int> &getSolutionsHistory() const;
+
     const graph_t &graph;
 
 private:
@@ -28,10 +31,10 @@ private:
     int amount_of_crossover_dots;
     int max_population_history_size;
 
-    int populations_amount;
     int equivalent_solutions_amount;
     bool end_detector;
 
+    std::vector<int> solutions_history;
     std::list<Population>::iterator current_population;
     population_list_t populations_history;
 
