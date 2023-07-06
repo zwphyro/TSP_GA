@@ -73,6 +73,10 @@ void MainWindow::onPushButtonAddEdgeClicked()
 
 void MainWindow::onPlotButtonClicked()
 {
+    // Dialog dialog;
+    // dialog.drawPlot(ui_slave->getSolutionsHistory());
+    // dialog.exec();
+    
     auto &elements = ui_slave->getSolutionsHistory();
     QVector<double> x;
     QVector<double> y;
