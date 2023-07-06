@@ -12,7 +12,7 @@ struct Settings
 
     double probability = 0.2;
     int count_crossover = 2;
-    int population_size = 10;
+    int population_size = 1;
 
 };
 

@@ -263,7 +263,7 @@
        <rect>
         <x>20</x>
         <y>10</y>
-        <width>271</width>
+        <width>333</width>
         <height>91</height>
        </rect>
       </property>
@@ -278,14 +278,14 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Введите количество особей в популяции</string>
+          <string>Введите множитель количество особей в популяции</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>Введите вероятность мутации</string>
+          <string>Введите частоту мутации</string>
          </property>
         </widget>
        </item>
@@ -294,9 +294,9 @@
      <widget class="QWidget" name="verticalLayoutWidget_6">
       <property name="geometry">
        <rect>
-        <x>310</x>
+        <x>350</x>
         <y>10</y>
-        <width>58</width>
+        <width>61</width>
         <height>91</height>
        </rect>
       </property>
@@ -349,7 +349,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Your data: cross_dot = 1, population_size = 10, probability = 1</string>
+       <string>Your data: cross_dot = 2, population_const = 1,  frequence = 0,2  </string>
       </property>
      </widget>
     </widget>
