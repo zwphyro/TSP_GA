@@ -21,8 +21,10 @@
 ### Установка библиотеки QCustomPlot на Linux:
 
 Прописать в командной строке:  
-   `sudo apt-get install qcustomplot`
-    
+`sudo apt-get install qcustomplot`
+
+![](./final_project.gif)
+![](https://media.giphy.com/media/BzyTuYCmvSORqs1ABM/giphy.gif)
 
 ## Сылка на отчет:
 
