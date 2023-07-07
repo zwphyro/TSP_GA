@@ -16,6 +16,8 @@
 #include <QGraphicsView>
 #include <QGraphicsItem>
 #include "dialog.h"
+#include <qcustomplot.h>
+
 #define CONST_SHIFT_LINE 20
 #define CONST_SHIFT_TEXT 10
 #define CONST_SCENE_WIDTH 230
@@ -67,6 +69,7 @@ private slots:
 
     void onPlotButtonClicked();
 
+    void updatePlot();
 
 private:
     Ui::MainWindow *ui;
@@ -78,7 +81,7 @@ private:
     Point *list_point = nullptr;
     QGraphicsScene *scene;
     QGraphicsTextItem *text;
-
+    QCustomPlot *plot;
 
     void initConnectTabFile();
     void initConnectTabAddVertex();

@@ -7,12 +7,17 @@
 
 #include "../data-structures/PopulationList.h"
 #include "../ui/controller/Settings.h"
+#include <QObject>
 
 /*
  * Class that implements genetic algorithm interface
  */
-class Algorithm
+class Algorithm : public QObject
 {
+Q_OBJECT
+signals:
+    void changePlot();
+
 public:
     Algorithm(const graph_t &graph, Settings settings);
     const Population &getCurrentPopulation() const;
@@ -24,6 +29,7 @@ public:
     const std::vector<long> &getSolutionsHistory() const;
 
     const graph_t &graph;
+    void generateNextPopulation();
 
 private:
     int population_size;
@@ -40,7 +46,6 @@ private:
     population_list_t populations_history;
 
     void generateFirstPopulation();
-    void generateNextPopulation();
 };
 
 
