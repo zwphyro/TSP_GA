@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include <qcustomplot.h>
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -26,6 +25,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->scrollArea_list_of_edge->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     ui->scrollArea_list_of_edge->setWidgetResizable(true);
+
+    ui->plot->addGraph();
+    auto pen = QPen(Qt::magenta);
+    pen.setWidth(6);
+    pen.setCapStyle(Qt::RoundCap);
+    ui->plot->graph(0)->setPen(pen);
 
 }
 
@@ -76,7 +81,7 @@ void MainWindow::onPlotButtonClicked()
     // Dialog dialog;
     // dialog.drawPlot(ui_slave->getSolutionsHistory());
     // dialog.exec();
-    
+
     auto &elements = ui_slave->getSolutionsHistory();
     QVector<double> x;
     QVector<double> y;
@@ -88,20 +93,14 @@ void MainWindow::onPlotButtonClicked()
         y[i] = (double) elements[i];
     }
 
-    QCustomPlot *plot = new QCustomPlot();
-    plot->addGraph();
-    auto pen = QPen(Qt::magenta);
-    pen.setWidth(6);
-    pen.setCapStyle(Qt::RoundCap);
-    plot->graph(0)->setPen(pen);
-    plot->graph(0)->setData(x, y);
+    ui->plot->graph(0)->setData(x, y);
     long graph_width = elements.size();
-    plot->xAxis->setRange(-graph_width * 0.1, graph_width * 1.1);
+    ui->plot->xAxis->setRange(0, graph_width * 1.1);
     long graph_height = elements.front() - elements.back();
-    plot->yAxis->setRange(elements.back() - graph_height * 0.1, elements.front() + graph_height * 0.1);
-    plot->replot();
-    plot->resize(1000, 500);
-    plot->show();
+    ui->plot->yAxis->setRange(elements.back() - graph_height * 0.1, elements.front() + graph_height * 0.1);
+    ui->plot->xAxis->setLabel("Число итераций");
+    ui->plot->yAxis->setLabel("Лучшее решение");
+    ui->plot->replot();
 }
 
 
@@ -283,6 +282,8 @@ void MainWindow::onStartClicked()
     ui_slave = new Algorithm(controllerUi.getGraph(),
                              controllerUi.settings);
 
+    connect(ui_slave, SIGNAL(changePlot()), this, SLOT(updatePlot()));
+    onPlotButtonClicked();
 
     ui->pushButton_plot->setDisabled(false);
     chooseWhatToDraw();
@@ -537,6 +538,11 @@ void MainWindow::chooseWhatToDraw()
         QMessageBox::warning(this, "Внимание", "Вы не выбрали что выводить");
     }
 
+}
+
+void MainWindow::updatePlot()
+{
+    onPlotButtonClicked();
 }
 
 

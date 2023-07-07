@@ -152,6 +152,7 @@ void Algorithm::generateNextPopulation()
     {
         end_detector = true;
     }
+    emit(changePlot());
 }
 
 std::size_t Algorithm::getAllPopulationsAmount() const
@@ -163,3 +164,4 @@ const std::vector<long> &Algorithm::getSolutionsHistory() const
 {
     return solutions_history;
 }
+
